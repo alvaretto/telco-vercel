@@ -529,6 +529,7 @@ const TelcoGuardAI = () => {
 
           </div>
         </div>
+      </div>
       </section>
 
       {/* Prevención y Cuidado Section */}
