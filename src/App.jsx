@@ -337,7 +337,7 @@ const TelcoGuardAI = () => {
                 className="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white px-8 py-3 rounded-lg font-semibold shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-slate-800"
                 aria-label="Ir a la sección de diagnóstico"
               >
-                Comenzar Diagnóstico
+                Iniciar Predicción
               </button>
             </div>
 
