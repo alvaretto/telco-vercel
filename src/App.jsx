@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Activity,
   AlertTriangle,
@@ -17,12 +17,17 @@ import {
   Cpu,
   FileJson,
   FileText,
-  Brain
+  Brain,
+  Menu,
+  X
 } from 'lucide-react';
 
 const TelcoGuardAI = () => {
   const [loading, setLoading] = useState(false);
   const [showResult, setShowResult] = useState(false);
+  const [formStep, setFormStep] = useState(1); // 1: Contrato, 2: Servicios
+  const [displayScore, setDisplayScore] = useState(0); // Para animación del contador
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // Para menú móvil
 
   // METADATA REAL DEL MODELO (Extraída de metadata.json)
   const MODEL_METADATA = {
@@ -64,6 +69,28 @@ const TelcoGuardAI = () => {
   });
 
   const [prediction, setPrediction] = useState(null);
+
+  // Efecto para animar el contador cuando aparece el resultado
+  useEffect(() => {
+    if (showResult && prediction) {
+      let start = 0;
+      const end = prediction.score;
+      const duration = 2000; // 2 segundos
+      const increment = end / (duration / 16); // 60 FPS
+
+      const timer = setInterval(() => {
+        start += increment;
+        if (start >= end) {
+          setDisplayScore(end);
+          clearInterval(timer);
+        } else {
+          setDisplayScore(Math.floor(start));
+        }
+      }, 16);
+
+      return () => clearInterval(timer);
+    }
+  }, [showResult, prediction]);
 
   // Simulación de Inferencia basada en los pesos típicos de una Regresión Logística para este dataset
   const calculateChurnRisk = () => {
@@ -145,11 +172,14 @@ const TelcoGuardAI = () => {
   const ToggleButton = ({ label, field, value }) => (
     <button
       onClick={() => handleInputChange(field, value === 'Yes' ? 'No' : 'Yes')}
-      className={`relative w-full p-3 rounded-lg border text-left transition-all flex justify-between items-center ${
+      className={`relative w-full p-3 rounded-lg border text-left transition-all flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-indigo-400 ${
         value === 'Yes'
           ? 'bg-indigo-500/20 border-indigo-500/50 text-white'
           : 'bg-slate-700/60 border-slate-600/50 text-slate-300 hover:border-slate-600'
       }`}
+      role="switch"
+      aria-checked={value === 'Yes'}
+      aria-label={`${label}: ${value === 'Yes' ? 'Activado' : 'Desactivado'}`}
     >
       <span className="text-sm font-medium">{label}</span>
       <div className={`relative w-11 h-6 rounded-full p-0.5 transition-all duration-300 ${
@@ -164,6 +194,14 @@ const TelcoGuardAI = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-800 via-slate-750 to-slate-800 text-slate-100 font-sans">
+      {/* Skip Link para accesibilidad */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-indigo-600 focus:text-white focus:rounded-lg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
+      >
+        Saltar al contenido principal
+      </a>
+
       {/* Fondo animado */}
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-500/18 rounded-full blur-[150px] animate-pulse"></div>
@@ -174,31 +212,69 @@ const TelcoGuardAI = () => {
       <div className="relative z-10">
 
       {/* Header/Navbar */}
-      <header className="bg-gradient-to-r from-indigo-600/20 to-violet-600/20 backdrop-blur-xl border-b border-slate-700/50 shadow-lg">
+      <header className="bg-gradient-to-r from-indigo-600/20 to-violet-600/20 backdrop-blur-xl border-b border-slate-700/50 shadow-lg sticky top-0 z-40" role="banner">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
-              <div className="bg-gradient-to-br from-indigo-500 to-violet-600 p-2 rounded-lg shadow-lg">
+              <div className="bg-gradient-to-br from-indigo-500 to-violet-600 p-2 rounded-lg shadow-lg" aria-hidden="true">
                 <Cpu className="w-6 h-6 text-white" />
               </div>
               <h1 className="text-2xl font-bold text-white">
                 TelcoGuard <span className="bg-gradient-to-r from-indigo-300 to-violet-300 bg-clip-text text-transparent">AI</span>
               </h1>
             </div>
-            <nav className="hidden md:flex items-center gap-6 text-slate-300 text-sm">
-              <a href="#" className="hover:text-white transition-colors">Inicio</a>
-              <a href="#diagnosticar" className="hover:text-white transition-colors">Diagnosticar</a>
+
+            {/* Navegación Desktop */}
+            <nav className="hidden md:flex items-center gap-6 text-slate-300 text-sm" role="navigation" aria-label="Navegación principal">
+              <a href="#" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:rounded px-2 py-1">Inicio</a>
+              <a href="#diagnosticar" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:rounded px-2 py-1">Diagnosticar</a>
             </nav>
+
+            {/* Botón Menú Móvil */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 text-slate-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded"
+              aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+              aria-expanded={mobileMenuOpen}
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
           </div>
+
+          {/* Menú Móvil */}
+          {mobileMenuOpen && (
+            <nav
+              className="md:hidden mt-4 pb-4 border-t border-slate-700/50 pt-4 animate-fadeInDown"
+              role="navigation"
+              aria-label="Navegación móvil"
+            >
+              <div className="flex flex-col gap-4">
+                <a
+                  href="#"
+                  className="text-slate-300 hover:text-white py-2 px-4 rounded-lg hover:bg-slate-700/50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Inicio
+                </a>
+                <a
+                  href="#diagnosticar"
+                  className="text-slate-300 hover:text-white py-2 px-4 rounded-lg hover:bg-slate-700/50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Diagnosticar
+                </a>
+              </div>
+            </nav>
+          )}
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="py-20">
+      <section className="py-20" aria-labelledby="hero-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+              <h2 id="hero-heading" className="text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
                 Descubre TelcoGuard <span className="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">AI</span>
               </h2>
               <p className="text-lg text-slate-300 mb-8 leading-relaxed">
@@ -207,7 +283,8 @@ const TelcoGuardAI = () => {
               </p>
               <button
                 onClick={() => document.getElementById('diagnosticar')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white px-8 py-3 rounded-lg font-semibold shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all"
+                className="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white px-8 py-3 rounded-lg font-semibold shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-slate-800"
+                aria-label="Ir a la sección de diagnóstico"
               >
                 Comenzar Diagnóstico
               </button>
@@ -218,19 +295,19 @@ const TelcoGuardAI = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-gradient-to-br from-indigo-500/20 to-indigo-600/20 rounded-xl p-5 border border-indigo-500/30">
                     <div className="text-3xl font-bold text-indigo-300 mb-1">{MODEL_METADATA.auc.toFixed(4)}</div>
-                    <div className="text-xs text-slate-400 font-medium">ROC AUC Score</div>
+                    <div className="text-xs text-slate-300 font-medium">ROC AUC Score</div>
                   </div>
                   <div className="bg-gradient-to-br from-violet-500/20 to-violet-600/20 rounded-xl p-5 border border-violet-500/30">
                     <div className="text-3xl font-bold text-violet-300 mb-1">{MODEL_METADATA.accuracy}</div>
-                    <div className="text-xs text-slate-400 font-medium">Accuracy</div>
+                    <div className="text-xs text-slate-300 font-medium">Accuracy</div>
                   </div>
                   <div className="bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 rounded-xl p-5 border border-emerald-500/30">
                     <div className="text-3xl font-bold text-emerald-300 mb-1">{MODEL_METADATA.features}</div>
-                    <div className="text-xs text-slate-400 font-medium">Features</div>
+                    <div className="text-xs text-slate-300 font-medium">Features</div>
                   </div>
                   <div className="bg-gradient-to-br from-slate-600/20 to-slate-700/20 rounded-xl p-5 border border-slate-600/30">
                     <div className="text-3xl font-bold text-white mb-1">v{MODEL_METADATA.version}</div>
-                    <div className="text-xs text-slate-400 font-medium">Version</div>
+                    <div className="text-xs text-slate-300 font-medium">Version</div>
                   </div>
                 </div>
                 <div className="mt-6 pt-6 border-t border-slate-700/50">
@@ -276,14 +353,47 @@ const TelcoGuardAI = () => {
       </section>
 
       {/* Formulario principal */}
-      <section id="diagnosticar" className="py-16">
+      <section id="diagnosticar" className="py-16" aria-labelledby="main-content">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">Configurar Predicción</h2>
+            <h2 id="main-content" className="text-3xl font-bold text-white mb-4">Configurar Predicción</h2>
             <p className="text-slate-300 max-w-2xl mx-auto">
               Configura los parámetros del cliente y ejecuta el modelo para obtener la probabilidad de churn.
             </p>
+          </div>
+
+          {/* Indicador de Progreso */}
+          <div className="mb-10">
+            <div className="flex items-center justify-center max-w-md mx-auto">
+              <div className="flex items-center gap-2">
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all duration-300 ${
+                  formStep >= 1 ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/25' : 'bg-slate-700 text-slate-400'
+                }`}>
+                  1
+                </div>
+                <span className={`text-sm font-medium transition-colors duration-300 ${
+                  formStep >= 1 ? 'text-white' : 'text-slate-400'
+                }`}>Contrato</span>
+              </div>
+
+              <div className="flex-1 h-1 bg-slate-700 mx-4 rounded-full overflow-hidden">
+                <div className={`h-full bg-indigo-600 transition-all duration-500 ${
+                  formStep >= 2 ? 'w-full' : 'w-0'
+                }`}></div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all duration-300 ${
+                  formStep >= 2 ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/25' : 'bg-slate-700 text-slate-400'
+                }`}>
+                  2
+                </div>
+                <span className={`text-sm font-medium transition-colors duration-300 ${
+                  formStep >= 2 ? 'text-white' : 'text-slate-400'
+                }`}>Servicios</span>
+              </div>
+            </div>
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
@@ -309,11 +419,13 @@ const TelcoGuardAI = () => {
                       <button
                         key={type}
                         onClick={() => handleInputChange('Contract', type)}
-                        className={`px-3 py-2.5 rounded-lg text-xs font-semibold transition-all duration-200 ${
+                        className={`px-3 py-2.5 rounded-lg text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 ${
                           formData.Contract === type
                             ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/25'
                             : 'bg-slate-700/60 text-slate-300 hover:bg-slate-700 border border-slate-600/50'
                         }`}
+                        role="radio"
+                        aria-checked={formData.Contract === type}
                       >
                         {type === 'Month-to-month' ? 'Mensual' : type === 'One year' ? '1 año' : '2 años'}
                       </button>
@@ -335,7 +447,7 @@ const TelcoGuardAI = () => {
                     onChange={(e) => handleInputChange('tenure', parseInt(e.target.value))}
                     className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-500"
                   />
-                  <div className="flex justify-between text-xs text-slate-400 mt-1">
+                  <div className="flex justify-between text-xs text-slate-300 mt-1">
                     <span>0m</span>
                     <span>72m</span>
                   </div>
@@ -356,7 +468,7 @@ const TelcoGuardAI = () => {
                     onChange={(e) => handleInputChange('MonthlyCharges', parseFloat(e.target.value))}
                     className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-500"
                   />
-                  <div className="flex justify-between text-xs text-slate-400 mt-1">
+                  <div className="flex justify-between text-xs text-slate-300 mt-1">
                     <span>$18</span>
                     <span>$120</span>
                   </div>
@@ -422,7 +534,9 @@ const TelcoGuardAI = () => {
             <button
               onClick={calculateChurnRisk}
               disabled={loading}
-              className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 text-lg"
+              className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 text-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-slate-800"
+              aria-label="Ejecutar predicción de abandono de cliente"
+              aria-busy={loading}
             >
               {loading ? (
                 <>
@@ -468,7 +582,7 @@ const TelcoGuardAI = () => {
 
                   {/* Círculo de probabilidad */}
                   <div className="text-center mb-8">
-                    <div className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Probabilidad de Churn</div>
+                    <div className="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-4">Probabilidad de Churn</div>
                     <div className="relative inline-flex items-center justify-center mb-4">
                       <svg className="w-48 h-48 transform -rotate-90">
                         <circle cx="96" cy="96" r="88" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-slate-700" />
@@ -484,12 +598,12 @@ const TelcoGuardAI = () => {
                             prediction.level === 'Crítico' ? 'text-red-500' :
                             prediction.level === 'Medio' ? 'text-orange-500' :
                             'text-emerald-500'
-                          } transition-all duration-1000 ease-out`}
+                          } transition-all duration-2000 ease-out`}
                         />
                       </svg>
                       <div className="absolute inset-0 flex flex-col items-center justify-center">
-                        <span className="text-5xl font-bold text-white mb-1">
-                          {prediction.score}%
+                        <span className="text-5xl font-bold text-white mb-1 tabular-nums">
+                          {displayScore}%
                         </span>
                         <span className={`text-xs font-bold px-3 py-1 rounded-full ${
                           prediction.level === 'Crítico' ? 'bg-red-500/20 text-red-300 border border-red-500/30' :
@@ -504,7 +618,7 @@ const TelcoGuardAI = () => {
 
                   {/* Factores de influencia */}
                   <div className="space-y-4 mb-6">
-                    <h4 className="text-xs uppercase text-slate-400 font-semibold tracking-wider pb-2 border-b border-slate-700/50">Factores Principales</h4>
+                    <h4 className="text-xs uppercase text-slate-300 font-semibold tracking-wider pb-2 border-b border-slate-700/50">Factores Principales</h4>
                     {prediction.factors.map((factor, i) => (
                       <div key={i} className="flex justify-between items-center p-3 bg-slate-700/60 rounded-lg border border-slate-600/50 hover:border-slate-600 transition-colors">
                         <span className="text-sm text-slate-300">{factor.name}</span>
@@ -515,7 +629,7 @@ const TelcoGuardAI = () => {
                       </div>
                     ))}
                     {prediction.factors.length === 0 && (
-                      <p className="text-sm text-slate-400 italic text-center py-4">Sin factores de riesgo significativos</p>
+                      <p className="text-sm text-slate-300 italic text-center py-4">Sin factores de riesgo significativos</p>
                     )}
                   </div>
 
@@ -579,7 +693,7 @@ const TelcoGuardAI = () => {
       {/* Footer con metadata */}
       <footer className="bg-slate-900/50 backdrop-blur-xl border-t border-slate-700/50 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-400">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-300">
             <div className="flex items-center gap-2">
               <Database className="w-4 h-4" />
               <span>Model: {MODEL_METADATA.name} v{MODEL_METADATA.version}</span>
