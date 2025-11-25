@@ -332,13 +332,29 @@ const TelcoGuardAI = () => {
                 Un modelo de inteligencia artificial diseñado para predecir la probabilidad de abandono de clientes
                 y proporcionar información útil sobre retención de clientes en telecomunicaciones.
               </p>
-              <button
-                onClick={() => document.getElementById('diagnosticar')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white px-8 py-3 rounded-lg font-semibold shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-slate-800"
-                aria-label="Ir a la sección de diagnóstico"
-              >
-                Iniciar Predicción
-              </button>
+
+              {/* Dual CTA - Botones de Acción Principal y Secundaria */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                {/* Botón Primario - Acción Principal */}
+                <button
+                  onClick={() => document.getElementById('diagnosticar')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white px-8 py-3 rounded-lg font-semibold shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-slate-800 flex items-center justify-center gap-2"
+                  aria-label="Ir a la sección de diagnóstico"
+                >
+                  <ArrowRight className="w-5 h-5" />
+                  Iniciar Predicción
+                </button>
+
+                {/* Botón Secundario - Acción Alternativa */}
+                <button
+                  onClick={() => document.getElementById('documentacion')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 hover:border-indigo-500/50 text-slate-300 hover:text-white px-8 py-3 rounded-lg font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-slate-800 flex items-center justify-center gap-2"
+                  aria-label="Ir a la sección de documentación"
+                >
+                  <BookOpen className="w-5 h-5" />
+                  Ver Documentación
+                </button>
+              </div>
             </div>
 
             <div className="relative">
