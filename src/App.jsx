@@ -26,7 +26,7 @@ import {
   ChevronUp
 } from 'lucide-react';
 
-const TelcoGuardAI = () => {
+const ClienteInsight = () => {
   const [loading, setLoading] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [formStep, setFormStep] = useState(1); // 1: Contrato, 2: Servicios
@@ -263,7 +263,7 @@ const TelcoGuardAI = () => {
                 <Cpu className="w-6 h-6 text-white" />
               </div>
               <h1 className="text-2xl font-bold text-white">
-                TelcoGuard <span className="bg-gradient-to-r from-indigo-300 to-violet-300 bg-clip-text text-transparent">AI</span>
+                Cliente<span className="bg-gradient-to-r from-indigo-300 to-violet-300 bg-clip-text text-transparent">Insight</span>
               </h1>
             </div>
 
@@ -326,7 +326,7 @@ const TelcoGuardAI = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 id="hero-heading" className="text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
-                Descubre TelcoGuard <span className="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">AI</span>
+                Descubre Cliente<span className="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">Insight</span>
               </h2>
               <p className="text-lg text-slate-300 mb-8 leading-relaxed">
                 Un modelo de inteligencia artificial diseñado para predecir la probabilidad de abandono de clientes
@@ -765,7 +765,7 @@ const TelcoGuardAI = () => {
               📚 Documentación
             </h2>
             <p className="text-slate-300 text-lg max-w-3xl mx-auto">
-              Aprende cómo funciona TelcoGuard AI, cómo interpretar los resultados y cómo utilizar la predicción de abandono para mejorar la retención de clientes.
+              Aprende cómo funciona ClienteInsight, cómo interpretar los resultados y cómo utilizar la predicción de abandono para mejorar la retención de clientes.
             </p>
           </div>
 
@@ -773,9 +773,9 @@ const TelcoGuardAI = () => {
             {/* Sección 1: Descripción General */}
             <AccordionItem icon={BookOpen} title="Descripción General del Proyecto" index={0}>
               <div className="space-y-4">
-                <h4 className="text-lg font-semibold text-white">¿Qué es TelcoGuard AI?</h4>
+                <h4 className="text-lg font-semibold text-white">¿Qué es ClienteInsight?</h4>
                 <p>
-                  TelcoGuard AI es una aplicación web de inteligencia artificial diseñada específicamente para empresas de telecomunicaciones que buscan reducir la tasa de abandono de clientes (churn). Utilizando algoritmos avanzados de machine learning, la aplicación analiza múltiples variables del comportamiento y perfil del cliente para predecir la probabilidad de que abandone el servicio.
+                  ClienteInsight es una aplicación web de inteligencia artificial diseñada específicamente para empresas de telecomunicaciones que buscan reducir la tasa de abandono de clientes (churn). Utilizando algoritmos avanzados de machine learning, la aplicación analiza múltiples variables del comportamiento y perfil del cliente para predecir la probabilidad de que abandone el servicio.
                 </p>
 
                 <h4 className="text-lg font-semibold text-white mt-6">Propósito</h4>
@@ -826,7 +826,7 @@ const TelcoGuardAI = () => {
               <div className="space-y-4">
                 <h4 className="text-lg font-semibold text-white">Algoritmo de Machine Learning</h4>
                 <p>
-                  TelcoGuard AI utiliza un modelo de <strong className="text-indigo-400">clasificación binaria</strong> entrenado con datos históricos de clientes de telecomunicaciones. El modelo analiza patrones complejos en el comportamiento del cliente para determinar la probabilidad de abandono.
+                  ClienteInsight utiliza un modelo de <strong className="text-indigo-400">clasificación binaria</strong> entrenado con datos históricos de clientes de telecomunicaciones. El modelo analiza patrones complejos en el comportamiento del cliente para determinar la probabilidad de abandono.
                 </p>
 
                 <div className="bg-slate-700/30 p-4 rounded-lg mt-4">
@@ -1186,7 +1186,7 @@ const TelcoGuardAI = () => {
               <div className="space-y-4">
                 <h4 className="text-lg font-semibold text-white">Análisis de Datos Históricos</h4>
                 <p>
-                  El modelo de TelcoGuard AI ha sido entrenado con un dataset histórico de clientes de telecomunicaciones que incluye:
+                  El modelo de ClienteInsight ha sido entrenado con un dataset histórico de clientes de telecomunicaciones que incluye:
                 </p>
                 <ul className="list-disc list-inside space-y-2 ml-4">
                   <li>Miles de registros de clientes con información completa</li>
@@ -1312,7 +1312,7 @@ const TelcoGuardAI = () => {
             <AccordionItem icon={Info} title="Glosario de Términos Técnicos" index={5}>
               <div className="space-y-4">
                 <p className="text-slate-300">
-                  Definiciones de los términos técnicos utilizados en TelcoGuard AI:
+                  Definiciones de los términos técnicos utilizados en ClienteInsight:
                 </p>
 
                 <div className="space-y-4 mt-6">
@@ -1448,4 +1448,4 @@ const TelcoGuardAI = () => {
   );
 };
 
-export default TelcoGuardAI;
+export default ClienteInsight;
