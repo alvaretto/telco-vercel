@@ -270,7 +270,7 @@ const ClienteInsight = () => {
             {/* Navegación Desktop */}
             <nav className="hidden md:flex items-center gap-6 text-slate-300 text-sm" role="navigation" aria-label="Navegación principal">
               <a href="#" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:rounded px-2 py-1">Inicio</a>
-              <a href="#diagnosticar" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:rounded px-2 py-1">Diagnosticar</a>
+              <a href="#diagnosticar" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:rounded px-2 py-1">Predicción</a>
               <a href="#documentacion" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:rounded px-2 py-1">Documentación</a>
             </nav>
 
@@ -305,7 +305,7 @@ const ClienteInsight = () => {
                   className="text-slate-300 hover:text-white py-2 px-4 rounded-lg hover:bg-slate-700/50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-400"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Diagnosticar
+                  Predicción
                 </a>
                 <a
                   href="#documentacion"
