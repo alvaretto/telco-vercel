@@ -1,9 +1,43 @@
+/* Importar tipografía Open Sauce One (similar a Open Sans pero con estilo único) */
+@import url('https://api.fontshare.com/v2/css?f[]=open-sauce-one@400,500,700&display=swap');
+
+/* Fallback con Open Sans de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Open Sauce One', 'Open Sans', system-ui, sans-serif;
+  }
+}
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+}
+
+/* Utilidades personalizadas para branding */
+@layer utilities {
+  .text-brand-gradient {
+    background: linear-gradient(120deg, #0037FF 0%, #fd371d 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-brand-gradient {
+    background: linear-gradient(120deg, #0037FF 0%, #fd371d 100%);
+  }
+
+  .bg-brand-gradient-soft {
+    background: linear-gradient(120deg, rgba(0, 55, 255, 0.15) 0%, rgba(253, 55, 29, 0.15) 100%);
+  }
+
+  .border-brand-gradient {
+    border-image: linear-gradient(120deg, #0037FF 0%, #fd371d 100%) 1;
+  }
 }

@@ -177,9 +177,9 @@ const ClienteInsight = () => {
   const ToggleButton = ({ label, field, value }) => (
     <button
       onClick={() => handleInputChange(field, value === 'Yes' ? 'No' : 'Yes')}
-      className={`relative w-full p-3 rounded-lg border text-left transition-all flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-indigo-400 ${
+      className={`relative w-full p-3 rounded-lg border text-left transition-all flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-brand-blue ${
         value === 'Yes'
-          ? 'bg-indigo-500/20 border-indigo-500/50 text-white'
+          ? 'bg-[#0037FF]/20 border-[#0037FF]/50 text-white'
           : 'bg-slate-700/60 border-slate-600/50 text-slate-300 hover:border-slate-600'
       }`}
       role="switch"
@@ -188,7 +188,7 @@ const ClienteInsight = () => {
     >
       <span className="text-sm font-medium">{label}</span>
       <div className={`relative w-11 h-6 rounded-full p-0.5 transition-all duration-300 ${
-        value === 'Yes' ? 'bg-indigo-600' : 'bg-slate-600'
+        value === 'Yes' ? 'bg-[#0037FF]' : 'bg-slate-600'
       }`}>
         <div className={`w-5 h-5 rounded-full bg-white shadow-md transition-transform duration-300 ${
           value === 'Yes' ? 'translate-x-5' : 'translate-x-0'
@@ -202,16 +202,16 @@ const ClienteInsight = () => {
     const isOpen = openAccordion === index;
 
     return (
-      <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-xl overflow-hidden hover:border-indigo-500/50 transition-all shadow-lg shadow-indigo-500/5">
+      <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-xl overflow-hidden hover:border-[#0037FF]/50 transition-all shadow-lg shadow-[#0037FF]/5">
         <button
           onClick={() => setOpenAccordion(isOpen ? null : index)}
-          className="w-full p-6 flex items-center justify-between text-left transition-all focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-inset hover:bg-slate-700/30"
+          className="w-full p-6 flex items-center justify-between text-left transition-all focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-inset hover:bg-slate-700/30"
           aria-expanded={isOpen}
           aria-controls={`accordion-content-${index}`}
         >
           <div className="flex items-center gap-4">
-            <div className="p-2 bg-indigo-500/20 rounded-lg">
-              <Icon className="w-6 h-6 text-indigo-400" />
+            <div className="p-2 bg-[#0037FF]/20 rounded-lg">
+              <Icon className="w-6 h-6 text-[#0037FF]" />
             </div>
             <h3 className="text-xl font-semibold text-slate-100">{title}</h3>
           </div>
@@ -236,48 +236,48 @@ const ClienteInsight = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-800 via-slate-750 to-slate-800 text-slate-100 font-sans">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 font-sans">
       {/* Skip Link para accesibilidad */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-indigo-600 focus:text-white focus:rounded-lg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-brand-blue focus:text-white focus:rounded-lg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-blue"
       >
         Saltar al contenido principal
       </a>
 
-      {/* Fondo animado */}
+      {/* Fondo animado con colores de marca (degradado 120° azul #0037FF → rojo #fd371d) */}
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-500/18 rounded-full blur-[150px] animate-pulse"></div>
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-violet-500/18 rounded-full blur-[150px]"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-blue-500/12 rounded-full blur-[120px]"></div>
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#0037FF]/20 rounded-full blur-[150px] animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#fd371d]/15 rounded-full blur-[150px]"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[#0037FF]/10 rounded-full blur-[120px]"></div>
       </div>
 
       <div className="relative z-10">
 
       {/* Header/Navbar */}
-      <header className="bg-gradient-to-r from-indigo-600/20 to-violet-600/20 backdrop-blur-xl border-b border-slate-700/50 shadow-lg sticky top-0 z-40" role="banner">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <header className="bg-gradient-to-r from-[#0037FF]/15 to-[#fd371d]/10 backdrop-blur-xl border-b border-slate-700/50 shadow-lg sticky top-0 z-40" role="banner">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <div className="flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <div className="bg-gradient-to-br from-indigo-500 to-violet-600 p-2 rounded-lg shadow-lg" aria-hidden="true">
-                <Cpu className="w-6 h-6 text-white" />
-              </div>
-              <h1 className="text-2xl font-bold text-white">
-                Cliente<span className="bg-gradient-to-r from-indigo-300 to-violet-300 bg-clip-text text-transparent">Insight</span>
-              </h1>
-            </div>
+            {/* Logo Cliente Insight */}
+            <a href="#" className="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:rounded-lg">
+              <img
+                src="/logo.png"
+                alt="Cliente Insight - Conoce quién se queda. Anticípate a quien se va"
+                className="h-10 sm:h-12 w-auto"
+              />
+            </a>
 
             {/* Navegación Desktop */}
             <nav className="hidden md:flex items-center gap-6 text-slate-300 text-sm" role="navigation" aria-label="Navegación principal">
-              <a href="#" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:rounded px-2 py-1">Inicio</a>
-              <a href="#diagnosticar" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:rounded px-2 py-1">Predicción</a>
-              <a href="#documentacion" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:rounded px-2 py-1">Documentación</a>
+              <a href="#" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-brand-blue focus:rounded px-2 py-1">Inicio</a>
+              <a href="#diagnosticar" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-brand-blue focus:rounded px-2 py-1">Predicción</a>
+              <a href="#documentacion" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-brand-blue focus:rounded px-2 py-1">Documentación</a>
             </nav>
 
             {/* Botón Menú Móvil */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 text-slate-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded"
+              className="md:hidden p-2 text-slate-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-brand-blue rounded"
               aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
               aria-expanded={mobileMenuOpen}
             >
@@ -295,21 +295,21 @@ const ClienteInsight = () => {
               <div className="flex flex-col gap-4">
                 <a
                   href="#"
-                  className="text-slate-300 hover:text-white py-2 px-4 rounded-lg hover:bg-slate-700/50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                  className="text-slate-300 hover:text-white py-2 px-4 rounded-lg hover:bg-slate-700/50 transition-all focus:outline-none focus:ring-2 focus:ring-brand-blue"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Inicio
                 </a>
                 <a
                   href="#diagnosticar"
-                  className="text-slate-300 hover:text-white py-2 px-4 rounded-lg hover:bg-slate-700/50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                  className="text-slate-300 hover:text-white py-2 px-4 rounded-lg hover:bg-slate-700/50 transition-all focus:outline-none focus:ring-2 focus:ring-brand-blue"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Predicción
                 </a>
                 <a
                   href="#documentacion"
-                  className="text-slate-300 hover:text-white py-2 px-4 rounded-lg hover:bg-slate-700/50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                  className="text-slate-300 hover:text-white py-2 px-4 rounded-lg hover:bg-slate-700/50 transition-all focus:outline-none focus:ring-2 focus:ring-brand-blue"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Documentación
@@ -325,8 +325,12 @@ const ClienteInsight = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
+              {/* Eslogan de marca */}
+              <p className="text-brand-blue font-semibold text-sm uppercase tracking-wider mb-4">
+                Conoce quién se queda. Anticípate a quien se va.
+              </p>
               <h2 id="hero-heading" className="text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
-                Descubre Cliente<span className="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">Insight</span>
+                Descubre <span className="text-brand-gradient">Cliente Insight</span>
               </h2>
               <p className="text-lg text-slate-300 mb-8 leading-relaxed">
                 Un modelo de inteligencia artificial diseñado para predecir la probabilidad de abandono de clientes
@@ -335,10 +339,10 @@ const ClienteInsight = () => {
 
               {/* Dual CTA - Botones de Acción Principal y Secundaria */}
               <div className="flex flex-col sm:flex-row gap-4">
-                {/* Botón Primario - Acción Principal */}
+                {/* Botón Primario - Acción Principal con degradado de marca */}
                 <button
                   onClick={() => document.getElementById('diagnosticar')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white px-8 py-3 rounded-lg font-semibold shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-slate-800 flex items-center justify-center gap-2"
+                  className="bg-brand-gradient hover:opacity-90 text-white px-8 py-3 rounded-lg font-semibold shadow-lg shadow-[#0037FF]/25 hover:shadow-[#0037FF]/40 transition-all focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2 focus:ring-offset-slate-800 flex items-center justify-center gap-2"
                   aria-label="Ir a la sección de diagnóstico"
                 >
                   <ArrowRight className="w-5 h-5" />
@@ -348,7 +352,7 @@ const ClienteInsight = () => {
                 {/* Botón Secundario - Acción Alternativa */}
                 <button
                   onClick={() => document.getElementById('documentacion')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 hover:border-indigo-500/50 text-slate-300 hover:text-white px-8 py-3 rounded-lg font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-slate-800 flex items-center justify-center gap-2"
+                  className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 hover:border-[#0037FF]/50 text-slate-300 hover:text-white px-8 py-3 rounded-lg font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2 focus:ring-offset-slate-800 flex items-center justify-center gap-2"
                   aria-label="Ir a la sección de documentación"
                 >
                   <BookOpen className="w-5 h-5" />
@@ -360,12 +364,12 @@ const ClienteInsight = () => {
             <div className="relative">
               <div className="bg-slate-800/50 backdrop-blur-xl rounded-2xl shadow-2xl p-8 border border-slate-700/50">
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-gradient-to-br from-indigo-500/20 to-indigo-600/20 rounded-xl p-5 border border-indigo-500/30">
-                    <div className="text-3xl font-bold text-indigo-300 mb-1">{MODEL_METADATA.accuracy}</div>
+                  <div className="bg-gradient-to-br from-[#0037FF]/20 to-[#0037FF]/10 rounded-xl p-5 border border-[#0037FF]/30">
+                    <div className="text-3xl font-bold text-[#0037FF] mb-1">{MODEL_METADATA.accuracy}</div>
                     <div className="text-xs text-slate-300 font-medium">Precisión del Modelo</div>
                   </div>
-                  <div className="bg-gradient-to-br from-violet-500/20 to-violet-600/20 rounded-xl p-5 border border-violet-500/30">
-                    <div className="text-3xl font-bold text-violet-300 mb-1">8 de 10</div>
+                  <div className="bg-gradient-to-br from-[#fd371d]/20 to-[#fd371d]/10 rounded-xl p-5 border border-[#fd371d]/30">
+                    <div className="text-3xl font-bold text-[#fd371d] mb-1">8 de 10</div>
                     <div className="text-xs text-slate-300 font-medium">Predicciones Correctas</div>
                   </div>
                   <div className="bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 rounded-xl p-5 border border-emerald-500/30">
@@ -379,7 +383,7 @@ const ClienteInsight = () => {
                 </div>
                 <div className="mt-6 pt-6 border-t border-slate-700/50">
                   <div className="flex items-center justify-center gap-2 text-slate-300">
-                    <Cpu className="w-5 h-5 text-indigo-400" />
+                    <Brain className="w-5 h-5 text-[#0037FF]" />
                     <span className="text-sm font-medium">Inteligencia Artificial Avanzada</span>
                   </div>
                 </div>
@@ -392,24 +396,24 @@ const ClienteInsight = () => {
       {/* Cómo Funciona Section */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent mb-4">¿Cómo Funciona?</h2>
+          <h2 className="text-4xl font-bold text-center text-brand-gradient mb-4">¿Cómo Funciona?</h2>
           <div className="grid md:grid-cols-3 gap-8 mt-12">
-            <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl p-8 border border-slate-700/50 shadow-sm hover:border-indigo-500/50 transition-colors">
-              <div className="w-14 h-14 bg-gradient-to-br from-indigo-600 to-indigo-500 text-white rounded-xl flex items-center justify-center text-2xl font-bold mb-4 shadow-lg shadow-indigo-500/25">1</div>
+            <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl p-8 border border-slate-700/50 shadow-sm hover:border-[#0037FF]/50 transition-colors">
+              <div className="w-14 h-14 bg-[#0037FF] text-white rounded-xl flex items-center justify-center text-2xl font-bold mb-4 shadow-lg shadow-[#0037FF]/25">1</div>
               <h3 className="text-xl font-bold text-white mb-3">Sube tu Información</h3>
               <p className="text-slate-300 leading-relaxed">
                 Proporciona datos del contrato y respuestas a cuestionarios sobre servicios del cliente.
               </p>
             </div>
-            <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl p-8 border border-slate-700/50 shadow-sm hover:border-violet-500/50 transition-colors">
-              <div className="w-14 h-14 bg-gradient-to-br from-violet-600 to-violet-500 text-white rounded-xl flex items-center justify-center text-2xl font-bold mb-4 shadow-lg shadow-violet-500/25">2</div>
+            <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl p-8 border border-slate-700/50 shadow-sm hover:border-[#fd371d]/50 transition-colors">
+              <div className="w-14 h-14 bg-brand-gradient text-white rounded-xl flex items-center justify-center text-2xl font-bold mb-4 shadow-lg shadow-[#0037FF]/25">2</div>
               <h3 className="text-xl font-bold text-white mb-3">Análisis con IA</h3>
               <p className="text-slate-300 leading-relaxed">
                 Nuestra IA procesa los datos con modelos avanzados para detectar posibles patrones de abandono.
               </p>
             </div>
-            <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl p-8 border border-slate-700/50 shadow-sm hover:border-indigo-500/50 transition-colors">
-              <div className="w-14 h-14 bg-gradient-to-br from-indigo-600 to-violet-600 text-white rounded-xl flex items-center justify-center text-2xl font-bold mb-4 shadow-lg shadow-indigo-500/25">3</div>
+            <div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl p-8 border border-slate-700/50 shadow-sm hover:border-[#0037FF]/50 transition-colors">
+              <div className="w-14 h-14 bg-[#fd371d] text-white rounded-xl flex items-center justify-center text-2xl font-bold mb-4 shadow-lg shadow-[#fd371d]/25">3</div>
               <h3 className="text-xl font-bold text-white mb-3">Obtén tu Resultado</h3>
               <p className="text-slate-300 leading-relaxed">
                 Recibe un informe con una estimación de riesgo y recomendaciones para la retención del cliente.
@@ -597,11 +601,11 @@ const ClienteInsight = () => {
               </div>
             </div>
 
-            {/* Botón de ejecución */}
+            {/* Botón de ejecución con degradado de marca */}
             <button
               onClick={calculateChurnRisk}
               disabled={loading}
-              className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 text-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-slate-800"
+              className="w-full bg-brand-gradient hover:opacity-90 text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-[#0037FF]/25 hover:shadow-[#0037FF]/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 text-lg focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2 focus:ring-offset-slate-800"
               aria-label="Ejecutar predicción de abandono de cliente"
               aria-busy={loading}
             >
@@ -761,11 +765,11 @@ const ClienteInsight = () => {
       <section id="documentacion" className="py-20 bg-slate-900/30">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent mb-4">
+            <h2 className="text-4xl font-bold text-brand-gradient mb-4">
               📚 Documentación
             </h2>
             <p className="text-slate-300 text-lg max-w-3xl mx-auto">
-              Aprende cómo funciona ClienteInsight, cómo interpretar los resultados y cómo utilizar la predicción de abandono para mejorar la retención de clientes.
+              Aprende cómo funciona Cliente Insight, cómo interpretar los resultados y cómo utilizar la predicción de abandono para mejorar la retención de clientes.
             </p>
           </div>
 
@@ -1426,18 +1430,42 @@ const ClienteInsight = () => {
         </div>
       </section>
 
-      {/* Footer con metadata */}
-      <footer className="bg-slate-900/50 backdrop-blur-xl border-t border-slate-700/50 py-8">
+      {/* Footer con branding y metadata */}
+      <footer className="bg-slate-900/80 backdrop-blur-xl border-t border-slate-700/50 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-300">
-            <div className="flex items-center gap-2">
-              <Database className="w-4 h-4" />
-              <span>Model: {MODEL_METADATA.name} v{MODEL_METADATA.version}</span>
+          <div className="flex flex-col gap-6">
+            {/* Logo y eslogan */}
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+              <div className="flex items-center gap-4">
+                <img src="/logo.png" alt="Cliente Insight" className="h-8 w-auto" />
+                <span className="text-slate-400 text-sm hidden sm:inline">Conoce quién se queda. Anticípate a quien se va.</span>
+              </div>
+              <a
+                href="https://www.clinsight.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#0037FF] hover:text-white transition-colors text-sm font-medium"
+              >
+                www.clinsight.com
+              </a>
             </div>
-            <div className="flex items-center gap-6">
-              <span>Features: {MODEL_METADATA.features}</span>
-              <span>•</span>
-              <span>Updated: {MODEL_METADATA.date}</span>
+
+            {/* Metadata del modelo */}
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-400 pt-4 border-t border-slate-700/50">
+              <div className="flex items-center gap-2">
+                <Database className="w-4 h-4" />
+                <span>Model: {MODEL_METADATA.name} v{MODEL_METADATA.version}</span>
+              </div>
+              <div className="flex items-center gap-6">
+                <span>Features: {MODEL_METADATA.features}</span>
+                <span>•</span>
+                <span>Updated: {MODEL_METADATA.date}</span>
+              </div>
+            </div>
+
+            {/* Copyright */}
+            <div className="text-center text-xs text-slate-500">
+              © {new Date().getFullYear()} Cliente Insight. Todos los derechos reservados.
             </div>
           </div>
         </div>
