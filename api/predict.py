@@ -5,7 +5,6 @@ Versión Ligera (sin sklearn) - Solo numpy para inferencia
 from http.server import BaseHTTPRequestHandler
 import json
 import os
-import pickle
 import numpy as np
 
 # Cargar coeficientes del modelo al inicio
@@ -20,11 +19,11 @@ def load_model():
     if COEF is not None:
         return True
     try:
-        # Cargar modelo (solo coeficientes de LogisticRegression)
-        with open(os.path.join(MODEL_DIR, 'churn_model.pkl'), 'rb') as f:
-            model = pickle.load(f)
-        COEF = model.coef_[0]
-        INTERCEPT = model.intercept_[0]
+        # Cargar coeficientes desde JSON (no requiere sklearn)
+        with open(os.path.join(MODEL_DIR, 'model_weights.json'), 'r') as f:
+            weights = json.load(f)
+        COEF = np.array(weights['coef'])
+        INTERCEPT = weights['intercept']
         
         with open(os.path.join(MODEL_DIR, 'metadata.json'), 'r') as f:
             METADATA = json.load(f)
@@ -32,22 +31,6 @@ def load_model():
     except Exception as e:
         LOAD_ERROR = str(e)
         return False
-
-# Orden de features (después del preprocessing)
-FEATURE_ORDER = [
-    "SeniorCitizen", "tenure", "MonthlyCharges", "TotalCharges", "Charge_Ratio",
-    "Total_Services", "AvgMonthlyCharges", "SeniorWithDependents", "HighValueContract",
-    "gender_Male", "Partner_Yes", "Dependents_Yes", "PhoneService_Yes",
-    "MultipleLines_No phone service", "MultipleLines_Yes", "InternetService_Fiber optic",
-    "InternetService_No", "OnlineSecurity_No internet service", "OnlineSecurity_Yes",
-    "OnlineBackup_No internet service", "OnlineBackup_Yes", "DeviceProtection_No internet service",
-    "DeviceProtection_Yes", "TechSupport_No internet service", "TechSupport_Yes",
-    "StreamingTV_No internet service", "StreamingTV_Yes", "StreamingMovies_No internet service",
-    "StreamingMovies_Yes", "Contract_One year", "Contract_Two year", "PaperlessBilling_Yes",
-    "PaymentMethod_Credit card (automatic)", "PaymentMethod_Electronic check",
-    "PaymentMethod_Mailed check", "TenureGroup_1-2 años", "TenureGroup_2-4 años",
-    "TenureGroup_4+ años", "TenureGroup_nan"
-]
 
 def preprocess_input(data):
     """Preprocesar input del usuario a features del modelo"""
