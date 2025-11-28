@@ -3,7 +3,10 @@
   "builds": [
     {
       "src": "api/*.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "runtime": "python3.12"
+      }
     },
     {
       "src": "package.json",
@@ -25,8 +28,8 @@
   ],
   "functions": {
     "api/predict.py": {
-      "memory": 512,
-      "maxDuration": 10
+      "memory": 1024,
+      "maxDuration": 30
     }
   }
 }

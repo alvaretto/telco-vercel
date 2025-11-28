@@ -1,29 +1,35 @@
 """
 API Serverless para predicción de Churn - Cliente Insight
-Vercel Python Runtime
+Vercel Python Runtime (Optimizado para deployment ligero)
 """
 from http.server import BaseHTTPRequestHandler
 import json
 import os
-import joblib
-import numpy as np
-import pandas as pd
 
-# Ruta a los modelos (relativa al root del proyecto)
-MODEL_DIR = os.path.join(os.path.dirname(__file__), '..', 'models')
+# Lazy loading para reducir cold start
+model = None
+preprocessor = None
+metadata = None
+LOAD_ERROR = None
 
-# Cargar modelos al inicio (cold start)
-try:
-    model = joblib.load(os.path.join(MODEL_DIR, 'churn_model.pkl'))
-    preprocessor = joblib.load(os.path.join(MODEL_DIR, 'preprocessor.pkl'))
-    with open(os.path.join(MODEL_DIR, 'metadata.json'), 'r') as f:
-        metadata = json.load(f)
-    MODELS_LOADED = True
-except Exception as e:
-    MODELS_LOADED = False
-    LOAD_ERROR = str(e)
+def load_models():
+    global model, preprocessor, metadata, LOAD_ERROR
+    if model is not None:
+        return True
+    
+    try:
+        import joblib
+        MODEL_DIR = os.path.join(os.path.dirname(__file__), '..', 'models')
+        model = joblib.load(os.path.join(MODEL_DIR, 'churn_model.pkl'))
+        preprocessor = joblib.load(os.path.join(MODEL_DIR, 'preprocessor.pkl'))
+        with open(os.path.join(MODEL_DIR, 'metadata.json'), 'r') as f:
+            metadata = json.load(f)
+        return True
+    except Exception as e:
+        LOAD_ERROR = str(e)
+        return False
 
-# Features esperadas por el modelo
+# Features esperadas
 EXPECTED_FEATURES = [
     'gender', 'SeniorCitizen', 'Partner', 'Dependents', 'tenure',
     'PhoneService', 'MultipleLines', 'InternetService', 'OnlineSecurity',
@@ -35,7 +41,6 @@ EXPECTED_FEATURES = [
 
 class handler(BaseHTTPRequestHandler):
     def do_OPTIONS(self):
-        """Handle CORS preflight"""
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
@@ -43,13 +48,12 @@ class handler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        """GET /api/predict - Retorna info del modelo"""
         self.send_response(200)
         self.send_header('Content-Type', 'application/json')
         self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
 
-        if MODELS_LOADED:
+        if load_models():
             response = {
                 'status': 'ok',
                 'model_info': metadata.get('model_info', {}),
@@ -62,33 +66,32 @@ class handler(BaseHTTPRequestHandler):
                 'status': 'error',
                 'message': f'Error cargando modelos: {LOAD_ERROR}'
             }
-
         self.wfile.write(json.dumps(response).encode())
 
     def do_POST(self):
-        """POST /api/predict - Realizar prediccion"""
-        self.send_header('Access-Control-Allow-Origin', '*')
-
-        if not MODELS_LOADED:
-            self.send_response(500)
-            self.send_header('Content-Type', 'application/json')
-            self.end_headers()
-            self.wfile.write(json.dumps({
-                'error': f'Modelos no cargados: {LOAD_ERROR}'
-            }).encode())
-            return
-
         try:
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+
+            if not load_models():
+                self.wfile.write(json.dumps({
+                    'success': False,
+                    'error': f'Modelos no cargados: {LOAD_ERROR}'
+                }).encode())
+                return
+
+            import pandas as pd
+            
             content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length)
             data = json.loads(post_data.decode('utf-8'))
 
             missing = [f for f in EXPECTED_FEATURES if f not in data]
             if missing:
-                self.send_response(400)
-                self.send_header('Content-Type', 'application/json')
-                self.end_headers()
                 self.wfile.write(json.dumps({
+                    'success': False,
                     'error': f'Campos faltantes: {missing}'
                 }).encode())
                 return
@@ -100,16 +103,8 @@ class handler(BaseHTTPRequestHandler):
             prediction = int(model.predict(X_processed)[0])
 
             score = round(churn_probability * 100)
-            if score <= 35:
-                risk_level = 'Bajo'
-            elif score <= 65:
-                risk_level = 'Medio'
-            else:
-                risk_level = 'Critico'
+            risk_level = 'Bajo' if score <= 35 else ('Medio' if score <= 65 else 'Critico')
 
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/json')
-            self.end_headers()
             self.wfile.write(json.dumps({
                 'success': True,
                 'prediction': {
@@ -122,9 +117,7 @@ class handler(BaseHTTPRequestHandler):
             }).encode())
 
         except Exception as e:
-            self.send_response(500)
-            self.send_header('Content-Type', 'application/json')
-            self.end_headers()
             self.wfile.write(json.dumps({
+                'success': False,
                 'error': str(e)
             }).encode())
