@@ -236,7 +236,7 @@ const ClienteInsight = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 font-sans">
+    <div className="min-h-screen bg-gradient-to-b from-[#000000] via-[#363333] to-[#000000] text-slate-100 font-sans">
       {/* Skip Link para accesibilidad */}
       <a
         href="#main-content"
@@ -762,7 +762,7 @@ const ClienteInsight = () => {
       </section>
 
       {/* Sección de Documentación */}
-      <section id="documentacion" className="py-20 bg-slate-900/30">
+      <section id="documentacion" className="py-20 bg-[#363333]/50">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-brand-gradient mb-4">
