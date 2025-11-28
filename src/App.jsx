@@ -32,17 +32,20 @@ const ClienteInsight = () => {
   const [formStep, setFormStep] = useState(1); // 1: Contrato, 2: Servicios
   const [displayScore, setDisplayScore] = useState(0); // Para animación del contador
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // Para menú móvil
-  const [openAccordion, setOpenAccordion] = useState(null); // Para acordeones de documentación
+  const [openAccordion, setOpenAccordion] = useState(null);
+  const [apiStatus, setApiStatus] = useState('checking');
+  const [useRealAPI, setUseRealAPI] = useState(true); // Para acordeones de documentación
 
   // METADATA REAL DEL MODELO (Extraída de metadata.json)
   const MODEL_METADATA = {
     name: "Logistic Regression Optimizado",
     version: "1.0.0",
-    date: "2025-11-24",
-    auc: 0.8246,
-    accuracy: "79.13%",
-    features: 41,
-    environment: "Google Colab / Production"
+    date: "2025-11-28",
+    auc: 0.8505,
+    accuracy: "85.05%",
+    recall: "79.68%",
+    features: 39,
+    environment: "Google Colab / Vercel Serverless"
   };
 
   // Estado del formulario alineado con las features requeridas por preprocessor.pkl
@@ -96,17 +99,89 @@ const ClienteInsight = () => {
       return () => clearInterval(timer);
     }
   }, [showResult, prediction]);
+  // Verificar estado de la API al cargar
+  useEffect(() => {
+    const checkAPI = async () => {
+      try {
+        const res = await fetch('/api/predict');
+        const data = await res.json();
+        if (data.status === 'ok') {
+          setApiStatus('online');
+          console.log('API conectada:', data.model_info);
+        } else {
+          setApiStatus('offline');
+          setUseRealAPI(false);
+        }
+      } catch (e) {
+        setApiStatus('offline');
+        setUseRealAPI(false);
+        console.log('API no disponible, usando simulación');
+      }
+    };
+    checkAPI();
+  }, []);
 
-  // Simulación de Inferencia basada en los pesos típicos de una Regresión Logística para este dataset
-  const calculateChurnRisk = () => {
+
+  
+  // Predicción usando API real o simulación local
+  const calculateChurnRisk = async () => {
     setLoading(true);
     setShowResult(false);
 
+    if (useRealAPI && apiStatus === 'online') {
+      // Usar API real
+      try {
+        const response = await fetch('/api/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          const factors = [];
+          
+          // Generar factores basados en los datos
+          if (formData.Contract === 'Month-to-month') {
+            factors.push({ name: 'Contrato: Mensual', impact: 'Crítico', color: 'text-red-400', weight: '+High' });
+          } else if (formData.Contract === 'Two year') {
+            factors.push({ name: 'Contrato: 2 Años', impact: 'Protector', color: 'text-emerald-400', weight: '-High' });
+          }
+          if (formData.InternetService === 'Fiber optic') {
+            factors.push({ name: 'Servicio: Fibra Óptica', impact: 'Alto', color: 'text-orange-400', weight: '+Med' });
+          }
+          if (formData.tenure < 6) {
+            factors.push({ name: 'Antigüedad: Baja', impact: 'Alto', color: 'text-red-400', weight: '+Med' });
+          }
+          if (formData.PaymentMethod === 'Electronic check') {
+            factors.push({ name: 'Pago: Cheque Electrónico', impact: 'Medio', color: 'text-orange-300', weight: '+Low' });
+          }
+          if (formData.TechSupport === 'Yes') {
+            factors.push({ name: 'Soporte Técnico: Activo', impact: 'Protector', color: 'text-emerald-400', weight: '-Med' });
+          }
+
+          setPrediction({
+            score: data.prediction.score,
+            level: data.prediction.risk_level,
+            factors: factors,
+            isRealPrediction: true
+          });
+          
+          setLoading(false);
+          setShowResult(true);
+          return;
+        }
+      } catch (error) {
+        console.error('Error en API, usando simulación:', error);
+      }
+    }
+
+    // Fallback: Simulación local
     setTimeout(() => {
-      let logit = -1.5; // Intercepto base (bias hacia No Churn)
+      let logit = -1.5;
       const factors = [];
 
-      // 1. Contrato (Peso fuerte negativo para largo plazo)
       if (formData.Contract === 'Month-to-month') {
         logit += 2.5;
         factors.push({ name: 'Contrato: Mensual', impact: 'Crítico', color: 'text-red-400', weight: '+High' });
@@ -115,45 +190,36 @@ const ClienteInsight = () => {
         factors.push({ name: 'Contrato: 2 Años', impact: 'Protector', color: 'text-emerald-400', weight: '-High' });
       }
 
-      // 2. Internet Service (Fibra suele tener alto churn)
       if (formData.InternetService === 'Fiber optic') {
         logit += 1.2;
         factors.push({ name: 'Servicio: Fibra Óptica', impact: 'Alto', color: 'text-orange-400', weight: '+Med' });
       }
 
-      // 3. Antigüedad (Tenure) - Relación lineal negativa
-      // Normalizamos tenure aprox 0-72
       logit -= (formData.tenure / 72) * 2.0;
       if (formData.tenure < 6) factors.push({ name: 'Antigüedad: Baja', impact: 'Alto', color: 'text-red-400', weight: '+Med' });
 
-      // 4. Método de Pago
       if (formData.PaymentMethod === 'Electronic check') {
         logit += 0.8;
         factors.push({ name: 'Pago: Cheque Electrónico', impact: 'Medio', color: 'text-orange-300', weight: '+Low' });
       }
 
-      // 5. Soporte Técnico y Seguridad (Protectores)
       if (formData.TechSupport === 'No' && formData.InternetService !== 'No') logit += 0.6;
       if (formData.OnlineSecurity === 'No' && formData.InternetService !== 'No') logit += 0.5;
-
-      // 6. Paperless Billing
       if (formData.PaperlessBilling === 'Yes') logit += 0.3;
-
-      // 7. Senior Citizen
       if (formData.SeniorCitizen === 1) logit += 0.2;
 
-      // Función Sigmoide para convertir logit a probabilidad (0-1)
       const probability = 1 / (1 + Math.exp(-logit));
       const percentage = Math.round(probability * 100);
 
       let riskLevel = 'Bajo';
       if (percentage > 35) riskLevel = 'Medio';
-      if (percentage > 65) riskLevel = 'Crítico'; // Umbral ajustado para churn
+      if (percentage > 65) riskLevel = 'Crítico';
 
       setPrediction({
         score: percentage,
         level: riskLevel,
-        factors: factors
+        factors: factors,
+        isRealPrediction: false
       });
 
       setLoading(false);

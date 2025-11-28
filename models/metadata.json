@@ -1,0 +1,143 @@
+{
+  "model_info": {
+    "name": "Logistic Regression Optimizado",
+    "version": "1.0.0",
+    "model_type": "Logistic Regression Optimizado",
+    "environment": "Google Colab",
+    "training_date": "2025-11-28T16:12:50.416931-05:00"
+  },
+  "random_state": {
+    "development_seed": 42,
+    "production_seed": 42,
+    "robustness_validation_seeds": [
+      42,
+      123,
+      456,
+      789,
+      2024
+    ],
+    "description": "Semilla fija para reproducibilidad en desarrollo y producci\u00f3n. Validaci\u00f3n de robustez con m\u00faltiples semillas antes de deployment."
+  },
+  "balancing_technique": "Undersampling",
+  "balancing_comparison": {
+    "SMOTE": {
+      "roc_auc": 0.8295073497119532,
+      "f1_score": 0.5638297872340425,
+      "precision": 0.5608465608465608,
+      "recall": 0.5668449197860963,
+      "accuracy": 0.7672107877927609,
+      "processing_time": 0.027421236038208008,
+      "training_time": 1.498814582824707,
+      "total_time": 1.526235818862915,
+      "training_samples": 8278
+    },
+    "SMOTE + Tomek": {
+      "roc_auc": 0.8289105892686456,
+      "f1_score": 0.5922974767596282,
+      "precision": 0.5883905013192612,
+      "recall": 0.5962566844919787,
+      "accuracy": 0.7821149751596878,
+      "processing_time": 0.39180731773376465,
+      "training_time": 2.5571365356445312,
+      "total_time": 2.948943853378296,
+      "training_samples": 8022
+    },
+    "Undersampling": {
+      "roc_auc": 0.8320829781187837,
+      "f1_score": 0.6227417640807651,
+      "precision": 0.5167548500881834,
+      "recall": 0.7834224598930482,
+      "accuracy": 0.7480482611781405,
+      "processing_time": 0.0025854110717773438,
+      "training_time": 0.9657831192016602,
+      "total_time": 0.9683685302734375,
+      "training_samples": 2990
+    }
+  },
+  "metrics": {
+    "test_set": {
+      "roc_auc": 0.8504843834767108,
+      "recall": 0.7967914438502673,
+      "precision": 0.5076660988074957,
+      "f1_score": 0.6201873048907388
+    },
+    "cross_validation": {
+      "cv_folds": 5,
+      "cv_score_mean": 0.8388500238812489,
+      "cv_score_std": 0.010929309783904882
+    }
+  },
+  "robustness_validation": {
+    "seeds_tested": [
+      42,
+      123,
+      456,
+      789,
+      2024
+    ],
+    "roc_auc_mean": 0.8514802759048283,
+    "roc_auc_std": 0.007089175298313841,
+    "roc_auc_min": 0.8466015655273966,
+    "roc_auc_max": 0.8637526156707743,
+    "roc_auc_range": 0.0171510501433777,
+    "robustness_status": "APPROVED",
+    "criteria_passed": {
+      "std_below_threshold": true,
+      "range_below_threshold": true,
+      "mean_above_threshold": true
+    }
+  },
+  "features": [
+    "SeniorCitizen",
+    "tenure",
+    "MonthlyCharges",
+    "TotalCharges",
+    "Charge_Ratio",
+    "Total_Services",
+    "AvgMonthlyCharges",
+    "SeniorWithDependents",
+    "HighValueContract",
+    "gender_Male",
+    "Partner_Yes",
+    "Dependents_Yes",
+    "PhoneService_Yes",
+    "MultipleLines_No phone service",
+    "MultipleLines_Yes",
+    "InternetService_Fiber optic",
+    "InternetService_No",
+    "OnlineSecurity_No internet service",
+    "OnlineSecurity_Yes",
+    "OnlineBackup_No internet service",
+    "OnlineBackup_Yes",
+    "DeviceProtection_No internet service",
+    "DeviceProtection_Yes",
+    "TechSupport_No internet service",
+    "TechSupport_Yes",
+    "StreamingTV_No internet service",
+    "StreamingTV_Yes",
+    "StreamingMovies_No internet service",
+    "StreamingMovies_Yes",
+    "Contract_One year",
+    "Contract_Two year",
+    "PaperlessBilling_Yes",
+    "PaymentMethod_Credit card (automatic)",
+    "PaymentMethod_Electronic check",
+    "PaymentMethod_Mailed check",
+    "TenureGroup_1-2 a\u00f1os",
+    "TenureGroup_2-4 a\u00f1os",
+    "TenureGroup_4+ a\u00f1os",
+    "TenureGroup_nan"
+  ],
+  "n_features": 39,
+  "n_samples_train": 5634,
+  "n_samples_train_balanced": 2990,
+  "model_size_mb": 0.0,
+  "preprocessor_size_mb": 0.01,
+  "save_location": "/content/drive/MyDrive/Colab_Models/Telco_Churn",
+  "library_versions": {
+    "sklearn": "1.6.1",
+    "pandas": "2.2.2",
+    "numpy": "2.0.2",
+    "joblib": "1.5.2"
+  }
+}
