@@ -1,6 +1,7 @@
 """
 API Serverless para predicción de Churn - Cliente Insight
 Versión Ligera (sin sklearn) - Solo numpy para inferencia
+Usa coeficientes reales del modelo entrenado en Google Colab
 """
 from http.server import BaseHTTPRequestHandler
 import json
@@ -12,18 +13,26 @@ MODEL_DIR = os.path.join(os.path.dirname(__file__), '..', 'models')
 COEF = None
 INTERCEPT = None
 METADATA = None
+SCALER_MEAN = None
+SCALER_SCALE = None
 LOAD_ERROR = None
 
 def load_model():
-    global COEF, INTERCEPT, METADATA, LOAD_ERROR
+    global COEF, INTERCEPT, METADATA, SCALER_MEAN, SCALER_SCALE, LOAD_ERROR
     if COEF is not None:
         return True
     try:
-        # Cargar coeficientes desde JSON (no requiere sklearn)
+        # Cargar coeficientes desde JSON
         with open(os.path.join(MODEL_DIR, 'model_weights.json'), 'r') as f:
             weights = json.load(f)
         COEF = np.array(weights['coef'])
         INTERCEPT = weights['intercept']
+        
+        # Cargar parámetros del scaler
+        with open(os.path.join(MODEL_DIR, 'scaler_params.json'), 'r') as f:
+            scaler = json.load(f)
+        SCALER_MEAN = np.array(scaler['mean'])
+        SCALER_SCALE = np.array(scaler['scale'])
         
         with open(os.path.join(MODEL_DIR, 'metadata.json'), 'r') as f:
             METADATA = json.load(f)
@@ -33,100 +42,135 @@ def load_model():
         return False
 
 def preprocess_input(data):
-    """Preprocesar input del usuario a features del modelo"""
+    """Preprocesar input del usuario a features del modelo (39 features)"""
+    # 9 features numéricas + 30 features categóricas one-hot
     features = np.zeros(39)
     
-    # Numéricas
-    features[0] = int(data.get('SeniorCitizen', 0))
-    features[1] = float(data.get('tenure', 0))
-    features[2] = float(data.get('MonthlyCharges', 0))
-    features[3] = float(data.get('TotalCharges', 0))
+    # === FEATURES NUMÉRICAS (índices 0-8) ===
+    tenure = float(data.get('tenure', 0))
+    monthly = float(data.get('MonthlyCharges', 0))
+    total = float(data.get('TotalCharges', 0))
     
-    # Features derivadas
-    tenure = features[1]
-    monthly = features[2]
-    total = features[3]
+    # Calcular features derivadas
+    charge_ratio = total / (monthly + 0.01) if monthly > 0 else 0
     
-    features[4] = total / (monthly + 0.01) if monthly > 0 else 0  # Charge_Ratio
-    
-    # Total_Services (contar servicios activos)
     services = 0
     for svc in ['PhoneService', 'MultipleLines', 'OnlineSecurity', 'OnlineBackup', 
                 'DeviceProtection', 'TechSupport', 'StreamingTV', 'StreamingMovies']:
         if data.get(svc) == 'Yes':
             services += 1
-    features[5] = services
     
-    features[6] = total / (tenure + 0.01) if tenure > 0 else monthly  # AvgMonthlyCharges
-    features[7] = features[0] * (1 if data.get('Dependents') == 'Yes' else 0)  # SeniorWithDependents
-    features[8] = 1 if (data.get('Contract') != 'Month-to-month' and monthly > 70) else 0  # HighValueContract
+    avg_monthly = total / (tenure + 0.01) if tenure > 0 else monthly
+    senior = int(data.get('SeniorCitizen', 0))
+    senior_with_dep = senior * (1 if data.get('Dependents') == 'Yes' else 0)
+    high_value = 1 if (data.get('Contract') != 'Month-to-month' and monthly > 70) else 0
     
-    # One-hot encoding
-    features[9] = 1 if data.get('gender') == 'Male' else 0
-    features[10] = 1 if data.get('Partner') == 'Yes' else 0
-    features[11] = 1 if data.get('Dependents') == 'Yes' else 0
-    features[12] = 1 if data.get('PhoneService') == 'Yes' else 0
+    # Array de features numéricas (orden del preprocesador)
+    num_features = np.array([
+        senior,           # SeniorCitizen
+        tenure,           # tenure
+        monthly,          # MonthlyCharges
+        total,            # TotalCharges
+        charge_ratio,     # Charge_Ratio
+        services,         # Total_Services
+        avg_monthly,      # AvgMonthlyCharges
+        senior_with_dep,  # SeniorWithDependents
+        high_value        # HighValueContract
+    ])
     
-    # MultipleLines
+    # Normalizar con StandardScaler
+    num_scaled = (num_features - SCALER_MEAN) / SCALER_SCALE
+    features[0:9] = num_scaled
+    
+    # === FEATURES CATEGÓRICAS ONE-HOT (índices 9-38) ===
+    idx = 9
+    
+    # gender (drop='first' -> Male=1)
+    features[idx] = 1 if data.get('gender') == 'Male' else 0
+    idx += 1
+    
+    # Partner (Yes=1)
+    features[idx] = 1 if data.get('Partner') == 'Yes' else 0
+    idx += 1
+    
+    # Dependents (Yes=1)
+    features[idx] = 1 if data.get('Dependents') == 'Yes' else 0
+    idx += 1
+    
+    # PhoneService (Yes=1)
+    features[idx] = 1 if data.get('PhoneService') == 'Yes' else 0
+    idx += 1
+    
+    # MultipleLines (No phone service, Yes) - 2 columnas
     ml = data.get('MultipleLines', 'No')
-    features[13] = 1 if ml == 'No phone service' else 0
-    features[14] = 1 if ml == 'Yes' else 0
+    features[idx] = 1 if ml == 'No phone service' else 0
+    features[idx+1] = 1 if ml == 'Yes' else 0
+    idx += 2
     
-    # InternetService
+    # InternetService (Fiber optic, No) - 2 columnas
     inet = data.get('InternetService', 'No')
-    features[15] = 1 if inet == 'Fiber optic' else 0
-    features[16] = 1 if inet == 'No' else 0
-    
+    features[idx] = 1 if inet == 'Fiber optic' else 0
+    features[idx+1] = 1 if inet == 'No' else 0
+    idx += 2
     no_internet = (inet == 'No')
     
-    # OnlineSecurity
-    features[17] = 1 if no_internet else 0
-    features[18] = 1 if data.get('OnlineSecurity') == 'Yes' else 0
+    # OnlineSecurity (No internet service, Yes) - 2 columnas
+    features[idx] = 1 if no_internet else 0
+    features[idx+1] = 1 if data.get('OnlineSecurity') == 'Yes' else 0
+    idx += 2
     
-    # OnlineBackup
-    features[19] = 1 if no_internet else 0
-    features[20] = 1 if data.get('OnlineBackup') == 'Yes' else 0
+    # OnlineBackup (No internet service, Yes) - 2 columnas
+    features[idx] = 1 if no_internet else 0
+    features[idx+1] = 1 if data.get('OnlineBackup') == 'Yes' else 0
+    idx += 2
     
-    # DeviceProtection
-    features[21] = 1 if no_internet else 0
-    features[22] = 1 if data.get('DeviceProtection') == 'Yes' else 0
+    # DeviceProtection (No internet service, Yes) - 2 columnas
+    features[idx] = 1 if no_internet else 0
+    features[idx+1] = 1 if data.get('DeviceProtection') == 'Yes' else 0
+    idx += 2
     
-    # TechSupport
-    features[23] = 1 if no_internet else 0
-    features[24] = 1 if data.get('TechSupport') == 'Yes' else 0
+    # TechSupport (No internet service, Yes) - 2 columnas
+    features[idx] = 1 if no_internet else 0
+    features[idx+1] = 1 if data.get('TechSupport') == 'Yes' else 0
+    idx += 2
     
-    # StreamingTV
-    features[25] = 1 if no_internet else 0
-    features[26] = 1 if data.get('StreamingTV') == 'Yes' else 0
+    # StreamingTV (No internet service, Yes) - 2 columnas
+    features[idx] = 1 if no_internet else 0
+    features[idx+1] = 1 if data.get('StreamingTV') == 'Yes' else 0
+    idx += 2
     
-    # StreamingMovies
-    features[27] = 1 if no_internet else 0
-    features[28] = 1 if data.get('StreamingMovies') == 'Yes' else 0
+    # StreamingMovies (No internet service, Yes) - 2 columnas
+    features[idx] = 1 if no_internet else 0
+    features[idx+1] = 1 if data.get('StreamingMovies') == 'Yes' else 0
+    idx += 2
     
-    # Contract
+    # Contract (One year, Two year) - 2 columnas
     contract = data.get('Contract', 'Month-to-month')
-    features[29] = 1 if contract == 'One year' else 0
-    features[30] = 1 if contract == 'Two year' else 0
+    features[idx] = 1 if contract == 'One year' else 0
+    features[idx+1] = 1 if contract == 'Two year' else 0
+    idx += 2
     
-    features[31] = 1 if data.get('PaperlessBilling') == 'Yes' else 0
+    # PaperlessBilling (Yes=1)
+    features[idx] = 1 if data.get('PaperlessBilling') == 'Yes' else 0
+    idx += 1
     
-    # PaymentMethod
+    # PaymentMethod (Credit card, Electronic check, Mailed check) - 3 columnas
     pm = data.get('PaymentMethod', 'Electronic check')
-    features[32] = 1 if pm == 'Credit card (automatic)' else 0
-    features[33] = 1 if pm == 'Electronic check' else 0
-    features[34] = 1 if pm == 'Mailed check' else 0
+    features[idx] = 1 if pm == 'Credit card (automatic)' else 0
+    features[idx+1] = 1 if pm == 'Electronic check' else 0
+    features[idx+2] = 1 if pm == 'Mailed check' else 0
+    idx += 3
     
-    # TenureGroup
+    # TenureGroup (1-2 años, 2-4 años, 4+ años, nan) - 4 columnas
     if tenure <= 12:
-        pass  # 0-1 año (baseline)
+        pass  # 0-1 año (baseline, drop='first')
     elif tenure <= 24:
-        features[35] = 1  # 1-2 años
+        features[idx] = 1  # 1-2 años
     elif tenure <= 48:
-        features[36] = 1  # 2-4 años
+        features[idx+1] = 1  # 2-4 años
     else:
-        features[37] = 1  # 4+ años
-    
-    features[38] = 0  # TenureGroup_nan (siempre 0)
+        features[idx+2] = 1  # 4+ años
+    # features[idx+3] = 0  # nan (siempre 0)
     
     return features
 
