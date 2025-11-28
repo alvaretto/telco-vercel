@@ -263,7 +263,7 @@ const ClienteInsight = () => {
               <img
                 src="/logo.png"
                 alt="Cliente Insight - Conoce quién se queda. Anticípate a quien se va"
-                className="h-14 sm:h-16 md:h-20 w-auto"
+                className="h-16 sm:h-20 md:h-24 w-auto"
               />
             </a>
 
@@ -1437,7 +1437,7 @@ const ClienteInsight = () => {
             {/* Logo y eslogan */}
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <div className="flex items-center gap-4">
-                <img src="/logo.png" alt="Cliente Insight" className="h-12 w-auto" />
+                <img src="/logo.png" alt="Cliente Insight" className="h-14 w-auto" />
                 <span className="text-slate-400 text-sm hidden sm:inline">Conoce quién se queda. Anticípate a quien se va.</span>
               </div>
               <a
