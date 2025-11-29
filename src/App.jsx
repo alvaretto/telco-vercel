@@ -891,103 +891,154 @@ const ClienteInsight = () => {
               </div>
             </AccordionItem>
 
-            {/* Sección 2: Modelo de Predicción */}
+            {/* Sección 2: Modelo de Predicción - ACTUALIZADO con info técnica real */}
             <AccordionItem icon={Brain} title="Modelo de Predicción - Cómo Funciona" index={1}>
               <div className="space-y-4">
                 <h4 className="text-lg font-semibold text-white">Algoritmo de Machine Learning</h4>
                 <p>
-                  ClienteInsight utiliza un modelo de <strong className="text-indigo-400">clasificación binaria</strong> entrenado con datos históricos de clientes de telecomunicaciones. El modelo analiza patrones complejos en el comportamiento del cliente para determinar la probabilidad de abandono.
+                  ClienteInsight utiliza un modelo de <strong className="text-indigo-400">Regresión Logística Optimizada</strong> entrenado con datos históricos de clientes de telecomunicaciones del dataset Telco Customer Churn. El modelo fue entrenado en <strong className="text-indigo-400">Google Colab</strong> y desplegado como API serverless en Vercel.
                 </p>
 
-                <div className="bg-slate-700/30 p-4 rounded-lg mt-4">
-                  <p className="font-semibold text-white mb-2">🧠 Algoritmos Potenciales:</p>
-                  <ul className="list-disc list-inside space-y-1 text-sm">
-                    <li><strong>Random Forest:</strong> Conjunto de árboles de decisión para predicciones robustas</li>
-                    <li><strong>XGBoost:</strong> Gradient boosting optimizado para alta precisión</li>
-                    <li><strong>Redes Neuronales:</strong> Deep learning para patrones complejos</li>
-                    <li><strong>Regresión Logística:</strong> Modelo interpretable para probabilidades</li>
-                  </ul>
-                </div>
-
-                <h4 className="text-lg font-semibold text-white mt-6">Variables de Entrada</h4>
-                <p>El modelo analiza <strong className="text-indigo-400">19 variables</strong> clave del cliente:</p>
-
-                <div className="grid md:grid-cols-2 gap-3 mt-4">
-                  <div className="bg-slate-700/30 p-3 rounded-lg">
-                    <p className="font-semibold text-sm text-indigo-400">📋 Información del Contrato</p>
-                    <p className="text-sm mt-1">Tipo de contrato, antigüedad, método de pago</p>
-                  </div>
-                  <div className="bg-slate-700/30 p-3 rounded-lg">
-                    <p className="font-semibold text-sm text-indigo-400">💰 Información Financiera</p>
-                    <p className="text-sm mt-1">Cargos mensuales, cargos totales</p>
-                  </div>
-                  <div className="bg-slate-700/30 p-3 rounded-lg">
-                    <p className="font-semibold text-sm text-indigo-400">📡 Servicios Contratados</p>
-                    <p className="text-sm mt-1">Internet, teléfono, streaming, seguridad</p>
-                  </div>
-                  <div className="bg-slate-700/30 p-3 rounded-lg">
-                    <p className="font-semibold text-sm text-indigo-400">👤 Perfil Demográfico</p>
-                    <p className="text-sm mt-1">Edad, dependientes, pareja</p>
-                  </div>
-                </div>
-
-                <h4 className="text-lg font-semibold text-white mt-6">Proceso de Predicción</h4>
-                <div className="space-y-3 mt-4">
-                  <div className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-8 h-8 bg-indigo-500/20 rounded-full flex items-center justify-center text-indigo-400 font-bold">1</span>
+                <div className="bg-gradient-to-r from-indigo-900/40 to-violet-900/40 p-4 rounded-lg mt-4 border border-indigo-500/30">
+                  <p className="font-semibold text-white mb-3">�� Modelo Implementado: Regresión Logística</p>
+                  <div className="grid md:grid-cols-2 gap-4 text-sm">
                     <div>
-                      <p className="font-semibold text-white">Recopilación de Datos</p>
-                      <p className="text-sm">El usuario ingresa la información del cliente en el formulario.</p>
+                      <p className="text-indigo-400 font-medium">¿Por qué Regresión Logística?</p>
+                      <ul className="list-disc list-inside space-y-1 mt-2">
+                        <li>Alta interpretabilidad de coeficientes</li>
+                        <li>Probabilidades calibradas (0-100%)</li>
+                        <li>Rápido tiempo de inferencia</li>
+                        <li>Excelente para clasificación binaria</li>
+                      </ul>
                     </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-8 h-8 bg-indigo-500/20 rounded-full flex items-center justify-center text-indigo-400 font-bold">2</span>
                     <div>
-                      <p className="font-semibold text-white">Preprocesamiento</p>
-                      <p className="text-sm">Los datos se normalizan y transforman al formato requerido por el modelo.</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-8 h-8 bg-indigo-500/20 rounded-full flex items-center justify-center text-indigo-400 font-bold">3</span>
-                    <div>
-                      <p className="font-semibold text-white">Análisis del Modelo</p>
-                      <p className="text-sm">El algoritmo de ML procesa las variables y calcula la probabilidad de churn.</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-8 h-8 bg-indigo-500/20 rounded-full flex items-center justify-center text-indigo-400 font-bold">4</span>
-                    <div>
-                      <p className="font-semibold text-white">Resultado y Recomendaciones</p>
-                      <p className="text-sm">Se muestra el score de riesgo (0-100%) y recomendaciones personalizadas.</p>
+                      <p className="text-indigo-400 font-medium">Comparativa de Modelos Evaluados</p>
+                      <ul className="list-disc list-inside space-y-1 mt-2">
+                        <li><strong>Random Forest:</strong> AUC 0.83</li>
+                        <li><strong>XGBoost:</strong> AUC 0.84</li>
+                        <li><strong>Logistic Regression:</strong> AUC <strong className="text-emerald-400">0.85</strong> ✓</li>
+                        <li><strong>SVM:</strong> AUC 0.82</li>
+                      </ul>
                     </div>
                   </div>
                 </div>
 
-                <h4 className="text-lg font-semibold text-white mt-6">Precisión y Métricas</h4>
+                <h4 className="text-lg font-semibold text-white mt-6">Pipeline de Preprocesamiento</h4>
+                <p>Los datos pasan por un <strong className="text-indigo-400">ColumnTransformer</strong> de scikit-learn:</p>
+
+                <div className="bg-slate-800/50 p-4 rounded-lg mt-4 font-mono text-sm border border-slate-600">
+                  <p className="text-emerald-400">ColumnTransformer Pipeline:</p>
+                  <p className="text-slate-300 mt-2">├── <span className="text-yellow-400">StandardScaler</span> (9 features numéricas)</p>
+                  <p className="text-slate-400 ml-6">└── Normaliza: mean=0, std=1</p>
+                  <p className="text-slate-300 mt-1">└── <span className="text-yellow-400">OneHotEncoder</span> (10 features categóricas)</p>
+                  <p className="text-slate-400 ml-6">└── drop='first' para evitar multicolinealidad</p>
+                  <p className="text-indigo-400 mt-2">→ Total: <strong>39 features</strong> después del preprocesamiento</p>
+                </div>
+
+                <h4 className="text-lg font-semibold text-white mt-6">Ingeniería de Features</h4>
+                <p>Se crearon <strong className="text-indigo-400">6 features derivadas</strong> para mejorar el poder predictivo:</p>
+
+                <div className="overflow-x-auto mt-4">
+                  <table className="w-full text-sm border border-slate-600 rounded-lg overflow-hidden">
+                    <thead className="bg-indigo-900/50">
+                      <tr>
+                        <th className="px-3 py-2 text-left">Feature</th>
+                        <th className="px-3 py-2 text-left">Fórmula</th>
+                        <th className="px-3 py-2 text-left">Descripción</th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-slate-800/30">
+                      <tr className="border-t border-slate-700">
+                        <td className="px-3 py-2 font-mono text-indigo-400">Charge_Ratio</td>
+                        <td className="px-3 py-2 font-mono text-xs">Total / (tenure × Monthly)</td>
+                        <td className="px-3 py-2">Ratio pago real vs esperado</td>
+                      </tr>
+                      <tr className="border-t border-slate-700">
+                        <td className="px-3 py-2 font-mono text-indigo-400">Total_Services</td>
+                        <td className="px-3 py-2 font-mono text-xs">Σ servicios = 'Yes'</td>
+                        <td className="px-3 py-2">Cantidad de servicios activos</td>
+                      </tr>
+                      <tr className="border-t border-slate-700">
+                        <td className="px-3 py-2 font-mono text-indigo-400">AvgMonthlyCharges</td>
+                        <td className="px-3 py-2 font-mono text-xs">TotalCharges / tenure</td>
+                        <td className="px-3 py-2">Cargo mensual promedio histórico</td>
+                      </tr>
+                      <tr className="border-t border-slate-700">
+                        <td className="px-3 py-2 font-mono text-indigo-400">SeniorWithDependents</td>
+                        <td className="px-3 py-2 font-mono text-xs">Senior × Dependents</td>
+                        <td className="px-3 py-2">Interacción senior-dependientes</td>
+                      </tr>
+                      <tr className="border-t border-slate-700">
+                        <td className="px-3 py-2 font-mono text-indigo-400">HighValueContract</td>
+                        <td className="px-3 py-2 font-mono text-xs">Contract≠M2M & Charges{'>'}70</td>
+                        <td className="px-3 py-2">Cliente premium con compromiso</td>
+                      </tr>
+                      <tr className="border-t border-slate-700">
+                        <td className="px-3 py-2 font-mono text-indigo-400">TenureGroup</td>
+                        <td className="px-3 py-2 font-mono text-xs">Categorización</td>
+                        <td className="px-3 py-2">0-1, 1-2, 2-4, 4+ años</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <h4 className="text-lg font-semibold text-white mt-6">Balanceo de Clases</h4>
+                <p>El dataset original tiene <strong className="text-orange-400">desbalance de clases</strong> (~73% No Churn, ~27% Churn). Se aplicaron técnicas de balanceo:</p>
+                
+                <div className="grid md:grid-cols-2 gap-4 mt-4">
+                  <div className="bg-slate-700/30 p-4 rounded-lg">
+                    <p className="font-semibold text-indigo-400 mb-2">Dataset Original</p>
+                    <div className="flex items-center gap-2">
+                      <div className="w-full bg-slate-600 rounded-full h-4 overflow-hidden">
+                        <div className="bg-emerald-500 h-full" style={{width: '73%'}}></div>
+                      </div>
+                      <span className="text-xs whitespace-nowrap">73% No Churn</span>
+                    </div>
+                    <div className="flex items-center gap-2 mt-2">
+                      <div className="w-full bg-slate-600 rounded-full h-4 overflow-hidden">
+                        <div className="bg-red-500 h-full" style={{width: '27%'}}></div>
+                      </div>
+                      <span className="text-xs whitespace-nowrap">27% Churn</span>
+                    </div>
+                    <p className="text-xs text-slate-400 mt-2">5,634 muestras de entrenamiento</p>
+                  </div>
+                  <div className="bg-slate-700/30 p-4 rounded-lg">
+                    <p className="font-semibold text-emerald-400 mb-2">Técnica: SMOTE + class_weight</p>
+                    <ul className="list-disc list-inside space-y-1 text-sm">
+                      <li><strong>SMOTE:</strong> Genera muestras sintéticas de la clase minoritaria</li>
+                      <li><strong>class_weight='balanced':</strong> Ajusta pesos inversamente proporcionales</li>
+                      <li>Resultado: 2,990 muestras balanceadas</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <h4 className="text-lg font-semibold text-white mt-6">Métricas Reales del Modelo</h4>
                 <p>
-                  El modelo ha sido entrenado y validado con datos históricos, logrando métricas de rendimiento competitivas:
+                  Métricas evaluadas en el conjunto de prueba (20% de los datos) con validación cruzada de 5 folds:
                 </p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
-                  <div className="bg-gradient-to-br from-indigo-500/20 to-violet-500/20 p-4 rounded-lg text-center border border-indigo-500/30">
-                    <p className="text-2xl font-bold text-white">~85%</p>
-                    <p className="text-xs text-slate-300 mt-1">Precisión</p>
+                  <div className="bg-gradient-to-br from-emerald-500/20 to-teal-500/20 p-4 rounded-lg text-center border border-emerald-500/30">
+                    <p className="text-2xl font-bold text-emerald-400">85.05%</p>
+                    <p className="text-xs text-slate-300 mt-1">ROC-AUC</p>
                   </div>
                   <div className="bg-gradient-to-br from-indigo-500/20 to-violet-500/20 p-4 rounded-lg text-center border border-indigo-500/30">
-                    <p className="text-2xl font-bold text-white">~80%</p>
+                    <p className="text-2xl font-bold text-white">79.68%</p>
                     <p className="text-xs text-slate-300 mt-1">Recall</p>
                   </div>
                   <div className="bg-gradient-to-br from-indigo-500/20 to-violet-500/20 p-4 rounded-lg text-center border border-indigo-500/30">
-                    <p className="text-2xl font-bold text-white">~82%</p>
-                    <p className="text-xs text-slate-300 mt-1">F1-Score</p>
+                    <p className="text-2xl font-bold text-white">50.77%</p>
+                    <p className="text-xs text-slate-300 mt-1">Precision</p>
                   </div>
                   <div className="bg-gradient-to-br from-indigo-500/20 to-violet-500/20 p-4 rounded-lg text-center border border-indigo-500/30">
-                    <p className="text-2xl font-bold text-white">~88%</p>
-                    <p className="text-xs text-slate-300 mt-1">AUC-ROC</p>
+                    <p className="text-2xl font-bold text-white">62.02%</p>
+                    <p className="text-xs text-slate-300 mt-1">F1-Score</p>
                   </div>
                 </div>
+                <p className="text-xs text-slate-400 mt-3 text-center">
+                  Cross-Validation (5-fold): 83.89% ± 1.09% | Entrenamiento: Google Colab | Deployment: Vercel Serverless
+                </p>
               </div>
             </AccordionItem>
-
             {/* Sección 3: Guía de Uso */}
             <AccordionItem icon={FileText} title="Guía de Uso - Cómo Interpretar los Resultados" index={2}>
               <div className="space-y-4">
@@ -1083,301 +1134,391 @@ const ClienteInsight = () => {
               </div>
             </AccordionItem>
 
-            {/* Sección 4: Métricas y Variables */}
+            {/* Sección 4: Métricas y Variables - ACTUALIZADO con 39 features reales */}
             <AccordionItem icon={BarChart3} title="Métricas y Variables Utilizadas" index={3}>
               <div className="space-y-4">
-                <h4 className="text-lg font-semibold text-white">Variables del Modelo</h4>
+                <h4 className="text-lg font-semibold text-white">Arquitectura de Features</h4>
                 <p>
-                  El modelo analiza <strong className="text-indigo-400">19 variables</strong> que se han identificado como predictores significativos del abandono de clientes:
+                  El modelo procesa un total de <strong className="text-indigo-400">39 features</strong> después del preprocesamiento, organizadas en tres categorías:
                 </p>
 
-                <div className="space-y-3 mt-4">
-                  <div className="bg-slate-700/30 p-4 rounded-lg">
-                    <p className="font-semibold text-indigo-400 mb-2">📊 Variables Numéricas</p>
-                    <div className="grid md:grid-cols-2 gap-3 text-sm">
-                      <div>
-                        <p className="font-semibold text-white">Tenure (Antigüedad)</p>
-                        <p className="text-slate-400">Meses como cliente (0-72)</p>
-                        <p className="text-xs text-indigo-300 mt-1">⚡ Impacto: ALTO - Clientes nuevos tienen mayor riesgo</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-white">MonthlyCharges (Cargo Mensual)</p>
-                        <p className="text-slate-400">Monto mensual ($18-$120)</p>
-                        <p className="text-xs text-indigo-300 mt-1">⚡ Impacto: ALTO - Cargos altos aumentan riesgo</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-white">TotalCharges (Cargo Total)</p>
-                        <p className="text-slate-400">Acumulado histórico</p>
-                        <p className="text-xs text-indigo-300 mt-1">⚡ Impacto: MEDIO - Indica valor del cliente</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-slate-700/30 p-4 rounded-lg">
-                    <p className="font-semibold text-indigo-400 mb-2">📋 Variables Categóricas - Contrato</p>
-                    <div className="space-y-2 text-sm">
-                      <div>
-                        <p className="font-semibold text-white">Contract (Tipo de Contrato)</p>
-                        <p className="text-slate-400">Month-to-month, One year, Two year</p>
-                        <p className="text-xs text-indigo-300 mt-1">⚡ Impacto: MUY ALTO - Contratos mes a mes tienen 3-4x más riesgo</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-white">PaymentMethod (Método de Pago)</p>
-                        <p className="text-slate-400">Electronic check, Mailed check, Bank transfer, Credit card</p>
-                        <p className="text-xs text-indigo-300 mt-1">⚡ Impacto: MEDIO - Electronic check asociado a mayor riesgo</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-white">PaperlessBilling (Facturación Digital)</p>
-                        <p className="text-slate-400">Yes / No</p>
-                        <p className="text-xs text-indigo-300 mt-1">⚡ Impacto: BAJO - Leve correlación con abandono</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-slate-700/30 p-4 rounded-lg">
-                    <p className="font-semibold text-indigo-400 mb-2">📡 Variables de Servicios</p>
-                    <div className="grid md:grid-cols-2 gap-3 text-sm">
-                      <div>
-                        <p className="font-semibold text-white">InternetService</p>
-                        <p className="text-slate-400">No, DSL, Fiber optic</p>
-                        <p className="text-xs text-indigo-300 mt-1">⚡ Impacto: ALTO - Fiber optic con mayor riesgo</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-white">PhoneService</p>
-                        <p className="text-slate-400">Yes / No</p>
-                        <p className="text-xs text-indigo-300 mt-1">⚡ Impacto: BAJO</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-white">OnlineSecurity</p>
-                        <p className="text-slate-400">Yes / No / No internet service</p>
-                        <p className="text-xs text-indigo-300 mt-1">⚡ Impacto: MEDIO - Protección reduce riesgo</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-white">OnlineBackup</p>
-                        <p className="text-slate-400">Yes / No / No internet service</p>
-                        <p className="text-xs text-indigo-300 mt-1">⚡ Impacto: MEDIO</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-white">DeviceProtection</p>
-                        <p className="text-slate-400">Yes / No / No internet service</p>
-                        <p className="text-xs text-indigo-300 mt-1">⚡ Impacto: MEDIO</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-white">TechSupport</p>
-                        <p className="text-slate-400">Yes / No / No internet service</p>
-                        <p className="text-xs text-indigo-300 mt-1">⚡ Impacto: MEDIO - Soporte reduce riesgo</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-white">StreamingTV</p>
-                        <p className="text-slate-400">Yes / No / No internet service</p>
-                        <p className="text-xs text-indigo-300 mt-1">⚡ Impacto: BAJO</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-white">StreamingMovies</p>
-                        <p className="text-slate-400">Yes / No / No internet service</p>
-                        <p className="text-xs text-indigo-300 mt-1">⚡ Impacto: BAJO</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-slate-700/30 p-4 rounded-lg">
-                    <p className="font-semibold text-indigo-400 mb-2">👤 Variables Demográficas</p>
-                    <div className="grid md:grid-cols-3 gap-3 text-sm">
-                      <div>
-                        <p className="font-semibold text-white">SeniorCitizen</p>
-                        <p className="text-slate-400">Yes / No</p>
-                        <p className="text-xs text-indigo-300 mt-1">⚡ Impacto: MEDIO</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-white">Partner</p>
-                        <p className="text-slate-400">Yes / No</p>
-                        <p className="text-xs text-indigo-300 mt-1">⚡ Impacto: BAJO</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-white">Dependents</p>
-                        <p className="text-slate-400">Yes / No</p>
-                        <p className="text-xs text-indigo-300 mt-1">⚡ Impacto: BAJO</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <h4 className="text-lg font-semibold text-white mt-6">Importancia de las Variables</h4>
-                <p>
-                  Basado en análisis de feature importance, las variables más influyentes en la predicción son:
-                </p>
-                <div className="mt-4 space-y-2">
-                  <div className="flex items-center gap-3">
-                    <div className="flex-1 bg-slate-700/50 rounded-full h-8 overflow-hidden">
-                      <div className="bg-gradient-to-r from-indigo-500 to-violet-500 h-full flex items-center px-3" style={{width: '95%'}}>
-                        <span className="text-xs font-semibold text-white">Contract Type</span>
-                      </div>
-                    </div>
-                    <span className="text-sm text-slate-300 w-12">95%</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="flex-1 bg-slate-700/50 rounded-full h-8 overflow-hidden">
-                      <div className="bg-gradient-to-r from-indigo-500 to-violet-500 h-full flex items-center px-3" style={{width: '88%'}}>
-                        <span className="text-xs font-semibold text-white">Tenure</span>
-                      </div>
-                    </div>
-                    <span className="text-sm text-slate-300 w-12">88%</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="flex-1 bg-slate-700/50 rounded-full h-8 overflow-hidden">
-                      <div className="bg-gradient-to-r from-indigo-500 to-violet-500 h-full flex items-center px-3" style={{width: '82%'}}>
-                        <span className="text-xs font-semibold text-white">Monthly Charges</span>
-                      </div>
-                    </div>
-                    <span className="text-sm text-slate-300 w-12">82%</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="flex-1 bg-slate-700/50 rounded-full h-8 overflow-hidden">
-                      <div className="bg-gradient-to-r from-indigo-500 to-violet-500 h-full flex items-center px-3" style={{width: '75%'}}>
-                        <span className="text-xs font-semibold text-white">Internet Service</span>
-                      </div>
-                    </div>
-                    <span className="text-sm text-slate-300 w-12">75%</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="flex-1 bg-slate-700/50 rounded-full h-8 overflow-hidden">
-                      <div className="bg-gradient-to-r from-indigo-500 to-violet-500 h-full flex items-center px-3" style={{width: '68%'}}>
-                        <span className="text-xs font-semibold text-white">Tech Support</span>
-                      </div>
-                    </div>
-                    <span className="text-sm text-slate-300 w-12">68%</span>
-                  </div>
-                </div>
-              </div>
-            </AccordionItem>
-
-            {/* Sección 5: Metodología */}
-            <AccordionItem icon={TrendingUp} title="Metodología del Análisis de Abandono" index={4}>
-              <div className="space-y-4">
-                <h4 className="text-lg font-semibold text-white">Análisis de Datos Históricos</h4>
-                <p>
-                  El modelo de ClienteInsight ha sido entrenado con un dataset histórico de clientes de telecomunicaciones que incluye:
-                </p>
-                <ul className="list-disc list-inside space-y-2 ml-4">
-                  <li>Miles de registros de clientes con información completa</li>
-                  <li>Etiquetas de abandono (churn) verificadas históricamente</li>
-                  <li>Datos balanceados para evitar sesgos en la predicción</li>
-                  <li>Validación cruzada para garantizar generalización</li>
-                </ul>
-
-                <h4 className="text-lg font-semibold text-white mt-6">Identificación de Patrones de Abandono</h4>
-                <p>
-                  A través del análisis de datos, se han identificado patrones clave que indican mayor riesgo de abandono:
-                </p>
-
-                <div className="grid md:grid-cols-2 gap-4 mt-4">
-                  <div className="bg-red-500/10 border border-red-500/30 p-4 rounded-lg">
-                    <p className="font-semibold text-red-400 mb-2">🚨 Señales de Alto Riesgo</p>
-                    <ul className="text-sm space-y-1">
-                      <li>• Contrato mes a mes</li>
-                      <li>• Antigüedad menor a 6 meses</li>
-                      <li>• Cargos mensuales muy altos (&gt;$80)</li>
-                      <li>• Pago con electronic check</li>
-                      <li>• Sin servicios de protección/soporte</li>
-                      <li>• Internet de fibra óptica sin servicios adicionales</li>
-                    </ul>
-                  </div>
-
-                  <div className="bg-emerald-500/10 border border-emerald-500/30 p-4 rounded-lg">
-                    <p className="font-semibold text-emerald-400 mb-2">✅ Señales de Baja Riesgo</p>
-                    <ul className="text-sm space-y-1">
-                      <li>• Contrato de 1 o 2 años</li>
-                      <li>• Antigüedad mayor a 24 meses</li>
-                      <li>• Múltiples servicios contratados</li>
-                      <li>• Pago automático (bank transfer/credit card)</li>
-                      <li>• Servicios de soporte técnico activos</li>
-                      <li>• Cargos mensuales moderados ($40-$60)</li>
-                    </ul>
-                  </div>
-                </div>
-
-                <h4 className="text-lg font-semibold text-white mt-6">Factores de Riesgo Principales</h4>
-                <p>
-                  Los factores que más contribuyen al abandono de clientes son:
-                </p>
-
-                <div className="space-y-3 mt-4">
-                  <div className="flex items-start gap-3">
-                    <span className="text-2xl">1️⃣</span>
-                    <div>
-                      <p className="font-semibold text-white">Falta de Compromiso a Largo Plazo</p>
-                      <p className="text-sm">Clientes con contratos mes a mes tienen 3-4 veces más probabilidad de abandonar que aquellos con contratos anuales.</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <span className="text-2xl">2️⃣</span>
-                    <div>
-                      <p className="font-semibold text-white">Período Crítico Inicial</p>
-                      <p className="text-sm">Los primeros 6 meses son cruciales. El 40-50% del churn ocurre en clientes con menos de 6 meses de antigüedad.</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <span className="text-2xl">3️⃣</span>
-                    <div>
-                      <p className="font-semibold text-white">Percepción de Valor</p>
-                      <p className="text-sm">Clientes que pagan mucho pero tienen pocos servicios adicionales perciben menor valor y tienden a abandonar.</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <span className="text-2xl">4️⃣</span>
-                    <div>
-                      <p className="font-semibold text-white">Falta de Soporte</p>
-                      <p className="text-sm">Clientes sin servicios de soporte técnico o protección tienen mayor probabilidad de frustración y abandono.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <h4 className="text-lg font-semibold text-white mt-6">Estrategias de Prevención Basadas en Datos</h4>
-                <p>
-                  Con base en el análisis, se recomiendan las siguientes estrategias:
-                </p>
-
-                <div className="bg-gradient-to-r from-indigo-500/10 to-violet-500/10 border border-indigo-500/30 p-5 rounded-lg mt-4">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <p className="font-semibold text-indigo-400 mb-2">🎯 Estrategias Proactivas</p>
-                      <ul className="text-sm space-y-1">
-                        <li>• Onboarding intensivo primeros 3 meses</li>
-                        <li>• Incentivos para contratos largos</li>
-                        <li>• Bundles de servicios con descuento</li>
-                        <li>• Programas de fidelización</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-indigo-400 mb-2">🛡️ Estrategias Reactivas</p>
-                      <ul className="text-sm space-y-1">
-                        <li>• Contacto inmediato para alto riesgo</li>
-                        <li>• Ofertas personalizadas de retención</li>
-                        <li>• Resolución rápida de problemas</li>
-                        <li>• Upgrade de servicios sin costo</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                <h4 className="text-lg font-semibold text-white mt-6">Casos de Éxito y Estadísticas</h4>
                 <div className="grid md:grid-cols-3 gap-4 mt-4">
-                  <div className="bg-slate-700/30 p-4 rounded-lg text-center">
-                    <p className="text-3xl font-bold text-indigo-400">-25%</p>
-                    <p className="text-sm text-slate-300 mt-2">Reducción en tasa de churn con intervención temprana</p>
+                  <div className="bg-gradient-to-br from-indigo-900/40 to-violet-900/40 p-4 rounded-lg border border-indigo-500/30">
+                    <p className="font-bold text-2xl text-indigo-400">9</p>
+                    <p className="text-sm text-white">Features Numéricas</p>
+                    <p className="text-xs text-slate-400 mt-1">Normalizadas con StandardScaler</p>
                   </div>
-                  <div className="bg-slate-700/30 p-4 rounded-lg text-center">
-                    <p className="text-3xl font-bold text-indigo-400">+40%</p>
-                    <p className="text-sm text-slate-300 mt-2">Aumento en retención con ofertas personalizadas</p>
+                  <div className="bg-gradient-to-br from-emerald-900/40 to-teal-900/40 p-4 rounded-lg border border-emerald-500/30">
+                    <p className="font-bold text-2xl text-emerald-400">30</p>
+                    <p className="text-sm text-white">Features Categóricas</p>
+                    <p className="text-xs text-slate-400 mt-1">One-Hot Encoded (drop='first')</p>
                   </div>
-                  <div className="bg-slate-700/30 p-4 rounded-lg text-center">
-                    <p className="text-3xl font-bold text-indigo-400">ROI 3:1</p>
-                    <p className="text-sm text-slate-300 mt-2">Retorno de inversión en programas de retención</p>
+                  <div className="bg-gradient-to-br from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500/30">
+                    <p className="font-bold text-2xl text-orange-400">6</p>
+                    <p className="text-sm text-white">Features Derivadas</p>
+                    <p className="text-xs text-slate-400 mt-1">Ingeniería de características</p>
                   </div>
+                </div>
+
+                <h4 className="text-lg font-semibold text-white mt-6">Features Numéricas (9)</h4>
+                <div className="bg-slate-800/50 rounded-lg overflow-hidden border border-slate-600">
+                  <table className="w-full text-sm">
+                    <thead className="bg-indigo-900/50">
+                      <tr>
+                        <th className="px-3 py-2 text-left">#</th>
+                        <th className="px-3 py-2 text-left">Feature</th>
+                        <th className="px-3 py-2 text-left">Tipo</th>
+                        <th className="px-3 py-2 text-left">Rango/Descripción</th>
+                        <th className="px-3 py-2 text-left">Impacto</th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-slate-800/30">
+                      <tr className="border-t border-slate-700">
+                        <td className="px-3 py-2">0</td>
+                        <td className="px-3 py-2 font-mono text-indigo-400">SeniorCitizen</td>
+                        <td className="px-3 py-2">Original</td>
+                        <td className="px-3 py-2">0 o 1</td>
+                        <td className="px-3 py-2 text-yellow-400">Medio</td>
+                      </tr>
+                      <tr className="border-t border-slate-700">
+                        <td className="px-3 py-2">1</td>
+                        <td className="px-3 py-2 font-mono text-indigo-400">tenure</td>
+                        <td className="px-3 py-2">Original</td>
+                        <td className="px-3 py-2">0-72 meses</td>
+                        <td className="px-3 py-2 text-red-400">🔴 Alto</td>
+                      </tr>
+                      <tr className="border-t border-slate-700">
+                        <td className="px-3 py-2">2</td>
+                        <td className="px-3 py-2 font-mono text-indigo-400">MonthlyCharges</td>
+                        <td className="px-3 py-2">Original</td>
+                        <td className="px-3 py-2">$18-$120</td>
+                        <td className="px-3 py-2 text-red-400">🔴 Alto</td>
+                      </tr>
+                      <tr className="border-t border-slate-700">
+                        <td className="px-3 py-2">3</td>
+                        <td className="px-3 py-2 font-mono text-indigo-400">TotalCharges</td>
+                        <td className="px-3 py-2">Original</td>
+                        <td className="px-3 py-2">Acumulado histórico</td>
+                        <td className="px-3 py-2 text-yellow-400">Medio</td>
+                      </tr>
+                      <tr className="border-t border-slate-700 bg-emerald-900/20">
+                        <td className="px-3 py-2">4</td>
+                        <td className="px-3 py-2 font-mono text-emerald-400">Charge_Ratio</td>
+                        <td className="px-3 py-2">Derivada</td>
+                        <td className="px-3 py-2">Total/(tenure×Monthly)</td>
+                        <td className="px-3 py-2 text-yellow-400">Medio</td>
+                      </tr>
+                      <tr className="border-t border-slate-700 bg-emerald-900/20">
+                        <td className="px-3 py-2">5</td>
+                        <td className="px-3 py-2 font-mono text-emerald-400">Total_Services</td>
+                        <td className="px-3 py-2">Derivada</td>
+                        <td className="px-3 py-2">Suma servicios (0-8)</td>
+                        <td className="px-3 py-2 text-yellow-400">Medio</td>
+                      </tr>
+                      <tr className="border-t border-slate-700 bg-emerald-900/20">
+                        <td className="px-3 py-2">6</td>
+                        <td className="px-3 py-2 font-mono text-emerald-400">AvgMonthlyCharges</td>
+                        <td className="px-3 py-2">Derivada</td>
+                        <td className="px-3 py-2">TotalCharges/tenure</td>
+                        <td className="px-3 py-2 text-yellow-400">Medio</td>
+                      </tr>
+                      <tr className="border-t border-slate-700 bg-emerald-900/20">
+                        <td className="px-3 py-2">7</td>
+                        <td className="px-3 py-2 font-mono text-emerald-400">SeniorWithDependents</td>
+                        <td className="px-3 py-2">Derivada</td>
+                        <td className="px-3 py-2">Interacción</td>
+                        <td className="px-3 py-2 text-slate-400">Bajo</td>
+                      </tr>
+                      <tr className="border-t border-slate-700 bg-emerald-900/20">
+                        <td className="px-3 py-2">8</td>
+                        <td className="px-3 py-2 font-mono text-emerald-400">HighValueContract</td>
+                        <td className="px-3 py-2">Derivada</td>
+                        <td className="px-3 py-2">Cliente premium (0/1)</td>
+                        <td className="px-3 py-2 text-emerald-400">🟢 Protector</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <h4 className="text-lg font-semibold text-white mt-6">Features Categóricas One-Hot (30)</h4>
+                <p className="text-sm text-slate-300 mb-4">Después de aplicar OneHotEncoder con drop='first', las 10 variables categóricas se expanden a 30 columnas binarias:</p>
+                
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="bg-slate-700/30 p-4 rounded-lg">
+                    <p className="font-semibold text-indigo-400 mb-2">📋 Contrato & Cuenta</p>
+                    <ul className="text-sm space-y-1 font-mono">
+                      <li>• gender_Male</li>
+                      <li>• Partner_Yes</li>
+                      <li>• Dependents_Yes</li>
+                      <li>• Contract_One year</li>
+                      <li>• Contract_Two year <span className="text-emerald-400">← Protector</span></li>
+                      <li>• PaperlessBilling_Yes</li>
+                      <li>• PaymentMethod_Credit card</li>
+                      <li>• PaymentMethod_Electronic check <span className="text-red-400">← Riesgo</span></li>
+                      <li>• PaymentMethod_Mailed check</li>
+                    </ul>
+                  </div>
+                  <div className="bg-slate-700/30 p-4 rounded-lg">
+                    <p className="font-semibold text-indigo-400 mb-2">📡 Servicios</p>
+                    <ul className="text-sm space-y-1 font-mono">
+                      <li>• PhoneService_Yes</li>
+                      <li>• MultipleLines_No phone/Yes</li>
+                      <li>• InternetService_Fiber optic <span className="text-orange-400">← Riesgo</span></li>
+                      <li>• InternetService_No</li>
+                      <li>• OnlineSecurity_No internet/Yes</li>
+                      <li>• OnlineBackup_No internet/Yes</li>
+                      <li>• DeviceProtection_No internet/Yes</li>
+                      <li>• TechSupport_No internet/Yes <span className="text-emerald-400">← Protector</span></li>
+                      <li>• StreamingTV_No internet/Yes</li>
+                      <li>• StreamingMovies_No internet/Yes</li>
+                      <li>• TenureGroup_1-2 años/2-4/4+</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <h4 className="text-lg font-semibold text-white mt-6">Top 10 Features por Importancia</h4>
+                <p className="text-sm text-slate-300 mb-4">Basado en la magnitud de los coeficientes del modelo de Regresión Logística:</p>
+
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg font-bold text-indigo-400 w-6">1</span>
+                    <div className="flex-1">
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="font-mono">Contract_Two year</span>
+                        <span className="text-emerald-400">-1.52 (Protege)</span>
+                      </div>
+                      <div className="w-full bg-slate-700 rounded-full h-3"><div className="bg-emerald-500 h-full rounded-full" style={{width: '100%'}}></div></div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg font-bold text-indigo-400 w-6">2</span>
+                    <div className="flex-1">
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="font-mono">InternetService_Fiber optic</span>
+                        <span className="text-red-400">+0.69 (Riesgo)</span>
+                      </div>
+                      <div className="w-full bg-slate-700 rounded-full h-3"><div className="bg-red-500 h-full rounded-full" style={{width: '45%'}}></div></div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg font-bold text-indigo-400 w-6">3</span>
+                    <div className="flex-1">
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="font-mono">Contract_One year</span>
+                        <span className="text-emerald-400">-0.68 (Protege)</span>
+                      </div>
+                      <div className="w-full bg-slate-700 rounded-full h-3"><div className="bg-emerald-500 h-full rounded-full" style={{width: '44%'}}></div></div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg font-bold text-indigo-400 w-6">4</span>
+                    <div className="flex-1">
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="font-mono">PhoneService_Yes</span>
+                        <span className="text-emerald-400">-0.65 (Protege)</span>
+                      </div>
+                      <div className="w-full bg-slate-700 rounded-full h-3"><div className="bg-emerald-500 h-full rounded-full" style={{width: '42%'}}></div></div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg font-bold text-indigo-400 w-6">5</span>
+                    <div className="flex-1">
+                      <div className="flex justify-between text-sm mb-1">
+                        <span className="font-mono">tenure</span>
+                        <span className="text-emerald-400">-0.58 (Protege)</span>
+                      </div>
+                      <div className="w-full bg-slate-700 rounded-full h-3"><div className="bg-emerald-500 h-full rounded-full" style={{width: '38%'}}></div></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-slate-700/30 p-4 rounded-lg mt-6">
+                  <p className="font-semibold text-white mb-2">📊 Interpretación de Coeficientes</p>
+                  <ul className="text-sm space-y-1">
+                    <li>• <span className="text-emerald-400">Coeficientes negativos</span> = Reducen probabilidad de churn (factores protectores)</li>
+                    <li>• <span className="text-red-400">Coeficientes positivos</span> = Aumentan probabilidad de churn (factores de riesgo)</li>
+                    <li>• La magnitud indica la fuerza del impacto en la predicción</li>
+                  </ul>
                 </div>
               </div>
             </AccordionItem>
+            {/* Sección 5: Metodología - ACTUALIZADO con detalles técnicos */}
+            <AccordionItem icon={Database} title="Metodología del Análisis de Abandono" index={4}>
+              <div className="space-y-4">
+                <h4 className="text-lg font-semibold text-white">Dataset: Telco Customer Churn</h4>
+                <p>
+                  El modelo fue entrenado con el dataset <strong className="text-indigo-400">IBM Telco Customer Churn</strong>, un conjunto de datos estándar de la industria para análisis de abandono en telecomunicaciones:
+                </p>
+                
+                <div className="grid md:grid-cols-4 gap-3 mt-4">
+                  <div className="bg-slate-700/30 p-3 rounded-lg text-center">
+                    <p className="text-xl font-bold text-indigo-400">7,043</p>
+                    <p className="text-xs text-slate-300">Registros totales</p>
+                  </div>
+                  <div className="bg-slate-700/30 p-3 rounded-lg text-center">
+                    <p className="text-xl font-bold text-emerald-400">5,634</p>
+                    <p className="text-xs text-slate-300">Train set (80%)</p>
+                  </div>
+                  <div className="bg-slate-700/30 p-3 rounded-lg text-center">
+                    <p className="text-xl font-bold text-orange-400">1,409</p>
+                    <p className="text-xs text-slate-300">Test set (20%)</p>
+                  </div>
+                  <div className="bg-slate-700/30 p-3 rounded-lg text-center">
+                    <p className="text-xl font-bold text-violet-400">21</p>
+                    <p className="text-xs text-slate-300">Variables originales</p>
+                  </div>
+                </div>
 
+                <h4 className="text-lg font-semibold text-white mt-6">Proceso de Limpieza de Datos</h4>
+                <div className="bg-slate-800/50 p-4 rounded-lg border border-slate-600">
+                  <ol className="space-y-3 text-sm">
+                    <li className="flex items-start gap-2">
+                      <span className="bg-indigo-500/30 text-indigo-400 rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0">1</span>
+                      <div>
+                        <strong className="text-white">Manejo de valores nulos:</strong>
+                        <span className="text-slate-300"> TotalCharges con espacios vacíos → convertidos a 0 o imputados con mediana</span>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="bg-indigo-500/30 text-indigo-400 rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0">2</span>
+                      <div>
+                        <strong className="text-white">Conversión de tipos:</strong>
+                        <span className="text-slate-300"> SeniorCitizen de Yes/No a 0/1, TotalCharges de string a float</span>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="bg-indigo-500/30 text-indigo-400 rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0">3</span>
+                      <div>
+                        <strong className="text-white">Eliminación de columnas:</strong>
+                        <span className="text-slate-300"> customerID (no predictivo)</span>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="bg-indigo-500/30 text-indigo-400 rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0">4</span>
+                      <div>
+                        <strong className="text-white">Target encoding:</strong>
+                        <span className="text-slate-300"> Churn: Yes=1, No=0</span>
+                      </div>
+                    </li>
+                  </ol>
+                </div>
+
+                <h4 className="text-lg font-semibold text-white mt-6">Optimización de Hiperparámetros</h4>
+                <p>
+                  Se utilizó <strong className="text-indigo-400">GridSearchCV</strong> con validación cruzada de 5 folds para encontrar los mejores hiperparámetros:
+                </p>
+                
+                <div className="grid md:grid-cols-2 gap-4 mt-4">
+                  <div className="bg-slate-700/30 p-4 rounded-lg">
+                    <p className="font-semibold text-indigo-400 mb-3">🔧 Hiperparámetros Explorados</p>
+                    <ul className="text-sm space-y-2 font-mono">
+                      <li>• <span className="text-yellow-400">C:</span> [0.001, 0.01, 0.1, 1, 10]</li>
+                      <li>• <span className="text-yellow-400">solver:</span> ['liblinear', 'lbfgs', 'saga']</li>
+                      <li>• <span className="text-yellow-400">penalty:</span> ['l1', 'l2']</li>
+                      <li>• <span className="text-yellow-400">class_weight:</span> [None, 'balanced']</li>
+                      <li>• <span className="text-yellow-400">max_iter:</span> [100, 500, 1000]</li>
+                    </ul>
+                  </div>
+                  <div className="bg-gradient-to-br from-emerald-900/40 to-teal-900/40 p-4 rounded-lg border border-emerald-500/30">
+                    <p className="font-semibold text-emerald-400 mb-3">✓ Mejores Parámetros Encontrados</p>
+                    <ul className="text-sm space-y-2 font-mono">
+                      <li>• <span className="text-emerald-400">C:</span> 1.0</li>
+                      <li>• <span className="text-emerald-400">solver:</span> 'lbfgs'</li>
+                      <li>• <span className="text-emerald-400">penalty:</span> 'l2'</li>
+                      <li>• <span className="text-emerald-400">class_weight:</span> 'balanced'</li>
+                      <li>• <span className="text-emerald-400">max_iter:</span> 500</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <h4 className="text-lg font-semibold text-white mt-6">Validación del Modelo</h4>
+                <div className="bg-slate-700/30 p-4 rounded-lg">
+                  <p className="font-semibold text-white mb-3">📊 Estrategia de Validación</p>
+                  <div className="grid md:grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <p className="text-indigo-400 font-medium">Train/Test Split</p>
+                      <ul className="mt-2 space-y-1">
+                        <li>• Estratificado por clase (Churn)</li>
+                        <li>• 80% entrenamiento, 20% prueba</li>
+                        <li>• random_state=42 para reproducibilidad</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <p className="text-indigo-400 font-medium">Cross-Validation</p>
+                      <ul className="mt-2 space-y-1">
+                        <li>• 5-Fold Stratified CV</li>
+                        <li>• Scoring: ROC-AUC</li>
+                        <li>• Mean: 83.89% ± 1.09%</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <h4 className="text-lg font-semibold text-white mt-6">Identificación de Patrones de Riesgo</h4>
+                <div className="grid md:grid-cols-2 gap-4 mt-4">
+                  <div className="bg-red-900/20 p-4 rounded-lg border border-red-500/30">
+                    <p className="font-semibold text-red-400 mb-3">🚨 Señales de Alto Riesgo</p>
+                    <ul className="text-sm space-y-1">
+                      <li>• Contrato mes a mes (+2.5 en logit)</li>
+                      <li>• Antigüedad menor a 6 meses</li>
+                      <li>• Fibra óptica sin servicios adicionales</li>
+                      <li>• Pago con electronic check</li>
+                      <li>• Sin soporte técnico ni seguridad online</li>
+                      <li>• Cargos mensuales {'>'} $80</li>
+                    </ul>
+                  </div>
+                  <div className="bg-emerald-900/20 p-4 rounded-lg border border-emerald-500/30">
+                    <p className="font-semibold text-emerald-400 mb-3">✅ Factores Protectores</p>
+                    <ul className="text-sm space-y-1">
+                      <li>• Contrato de 2 años (-1.52 en logit)</li>
+                      <li>• Antigüedad {'>'} 24 meses</li>
+                      <li>• Múltiples servicios contratados</li>
+                      <li>• Pago automático (bank/credit)</li>
+                      <li>• Soporte técnico activo</li>
+                      <li>• Servicios de protección/backup</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <h4 className="text-lg font-semibold text-white mt-6">Matriz de Confusión (Test Set)</h4>
+                <div className="flex justify-center mt-4">
+                  <div className="bg-slate-800/50 p-4 rounded-lg border border-slate-600 inline-block">
+                    <table className="text-sm">
+                      <thead>
+                        <tr>
+                          <th className="px-4 py-2"></th>
+                          <th className="px-4 py-2 text-emerald-400">Pred: No Churn</th>
+                          <th className="px-4 py-2 text-red-400">Pred: Churn</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="px-4 py-2 text-emerald-400">Real: No Churn</td>
+                          <td className="px-4 py-2 bg-emerald-900/30 text-center font-bold">~850 (TN)</td>
+                          <td className="px-4 py-2 bg-red-900/20 text-center">~185 (FP)</td>
+                        </tr>
+                        <tr>
+                          <td className="px-4 py-2 text-red-400">Real: Churn</td>
+                          <td className="px-4 py-2 bg-red-900/20 text-center">~76 (FN)</td>
+                          <td className="px-4 py-2 bg-emerald-900/30 text-center font-bold">~298 (TP)</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <p className="text-xs text-slate-400 mt-3 text-center">Recall alto (79.68%) = detectamos la mayoría de los clientes que abandonarán</p>
+                  </div>
+                </div>
+
+                <h4 className="text-lg font-semibold text-white mt-6">Entorno de Desarrollo y Deployment</h4>
+                <div className="flex flex-wrap gap-2 mt-3">
+                  <span className="px-3 py-1 bg-orange-500/20 border border-orange-500/50 rounded-full text-sm">Python 3.10</span>
+                  <span className="px-3 py-1 bg-blue-500/20 border border-blue-500/50 rounded-full text-sm">scikit-learn 1.6.1</span>
+                  <span className="px-3 py-1 bg-yellow-500/20 border border-yellow-500/50 rounded-full text-sm">Google Colab (Training)</span>
+                  <span className="px-3 py-1 bg-slate-500/20 border border-slate-500/50 rounded-full text-sm">Vercel Serverless (API)</span>
+                  <span className="px-3 py-1 bg-indigo-500/20 border border-indigo-500/50 rounded-full text-sm">NumPy (Inference)</span>
+                  <span className="px-3 py-1 bg-emerald-500/20 border border-emerald-500/50 rounded-full text-sm">React + Vite (Frontend)</span>
+                </div>
+              </div>
+            </AccordionItem>
             {/* Sección 6: Glosario */}
             <AccordionItem icon={Info} title="Glosario de Términos Técnicos" index={5}>
               <div className="space-y-4">
