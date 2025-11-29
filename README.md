@@ -9,7 +9,7 @@
 
 **Aplicación web de predicción de abandono de clientes de telecomunicaciones usando Machine Learning**
 
-[🚀 Ver Demo](https://clienteinsight-ai.vercel.app/) • [📊 Documentación](https://clienteinsight-ai.vercel.app/#documentacion)
+[🚀 Ver Demo](https://clienteinsight-ai.vercel.app/) • [📊 Documentación](https://clienteinsight-ai.vercel.app/#documentacion) • [🧠 Notebook de Entrenamiento](https://github.com/alvaretto/telco-customer-churn-prediction)
 
 </div>
 
@@ -298,3 +298,17 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo [LICENSE](LICENSE) para
 Made with ❤️ using React + Python + ML
 
 </div>
+
+
+---
+
+## 🔗 Repositorio Relacionado
+
+> **�� Este proyecto tiene un repositorio hermano para el entrenamiento del modelo:**
+
+| Repositorio | Propósito | Link |
+|-------------|-----------|------|
+| 🧠 **Entrenamiento del Modelo** | Notebook de Google Colab, EDA, optimización, documentación técnica | [📂 telco-customer-churn-prediction](https://github.com/alvaretto/telco-customer-churn-prediction) |
+| 🌐 **Aplicación Web** (este repo) | Frontend React, API serverless, deployment en Vercel | [📂 telco-vercel](https://github.com/alvaretto/telco-vercel) |
+
+El modelo fue entrenado en Google Colab y los coeficientes fueron exportados a JSON para ser usados en la API serverless de este repositorio.
