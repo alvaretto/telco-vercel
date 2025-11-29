@@ -1648,12 +1648,12 @@ const ClienteInsight = () => {
                 <span className="text-slate-400 text-sm hidden sm:inline">Conoce quién se queda. Anticípate a quien se va.</span>
               </div>
               <a
-                href="https://www.clinsight.com"
+                href="https://github.com/alvaretto/telco-vercel"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#0037FF] hover:text-white transition-colors text-sm font-medium"
               >
-                www.clinsight.com
+                github.com/alvaretto/telco-vercel
               </a>
             </div>
 
