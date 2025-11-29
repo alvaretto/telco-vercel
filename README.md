@@ -262,9 +262,17 @@ Las contribuciones son bienvenidas. Para cambios importantes:
 
 ---
 
-## 👨‍💻 Autor
+## 👥 Autores
 
-**Álvaro Ángel Molina** ([@alvaretto](https://github.com/alvaretto))
+Este proyecto fue desarrollado por:
+
+- **Anderson Tabima**
+- **Antony Tabima**
+- **Yhabeidy Alejandra Agudelo**
+- **Carlos Mario Londoño**
+- **Natalia Bedoya**
+- **Sebastian Cano**
+- **Álvaro Ángel Molina** - [@alvaretto](https://github.com/alvaretto)
 
 ---
 
