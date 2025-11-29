@@ -37,7 +37,21 @@
 
 @layer base {
   html {
-    font-family: 'Open Sauce One', system-ui, sans-serif;
+    font-family: 'Open Sauce One', 'Inter', system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+  
+  /* Mejora de renderizado de fuentes */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* Selección de texto con colores de marca */
+  ::selection {
+    background: rgba(99, 102, 241, 0.3);
+    color: white;
   }
 }
 
@@ -45,26 +59,187 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background: linear-gradient(180deg, #080810 0%, #0F0F1A 50%, #1E1E2E 100%);
+  background-attachment: fixed;
 }
 
-/* Utilidades personalizadas para branding */
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0F0F1A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6366F1 0%, #8B5CF6 100%);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #818CF8 0%, #A78BFA 100%);
+}
+
+/* Utilidades personalizadas para branding mejorado */
 @layer utilities {
+  /* Texto con gradiente moderno */
   .text-brand-gradient {
-    background: linear-gradient(120deg, #0037FF 0%, #fd371d 100%);
+    background: linear-gradient(135deg, #6366F1 0%, #A855F7 50%, #EC4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .text-brand-gradient-blue {
+    background: linear-gradient(135deg, #0052FF 0%, #6366F1 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
+  /* Fondos con gradiente */
   .bg-brand-gradient {
-    background: linear-gradient(120deg, #0037FF 0%, #fd371d 100%);
+    background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #A855F7 100%);
   }
 
   .bg-brand-gradient-soft {
-    background: linear-gradient(120deg, rgba(0, 55, 255, 0.15) 0%, rgba(253, 55, 29, 0.15) 100%);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
   }
 
+  .bg-brand-gradient-vivid {
+    background: linear-gradient(135deg, #6366F1 0%, #A855F7 50%, #EC4899 100%);
+  }
+  
+  /* Efecto glassmorphism moderno */
+  .glass {
+    background: rgba(30, 30, 46, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  
+  .glass-dark {
+    background: rgba(15, 15, 26, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  .glass-card {
+    background: linear-gradient(135deg, rgba(30, 30, 46, 0.7) 0%, rgba(15, 15, 26, 0.8) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(99, 102, 241, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+  
+  .glass-card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .glass-card-hover:hover {
+    border-color: rgba(99, 102, 241, 0.4);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(99, 102, 241, 0.15);
+    transform: translateY(-2px);
+  }
+
+  /* Borde con gradiente */
   .border-brand-gradient {
-    border-image: linear-gradient(120deg, #0037FF 0%, #fd371d 100%) 1;
+    border: 1px solid transparent;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background-image: linear-gradient(#0F0F1A, #0F0F1A), 
+                      linear-gradient(135deg, #6366F1, #A855F7);
+  }
+  
+  /* Glow effects */
+  .glow-indigo {
+    box-shadow: 0 0 30px -5px rgba(99, 102, 241, 0.4);
+  }
+  
+  .glow-violet {
+    box-shadow: 0 0 30px -5px rgba(139, 92, 246, 0.4);
+  }
+  
+  .glow-blue {
+    box-shadow: 0 0 30px -5px rgba(0, 82, 255, 0.4);
+  }
+  
+  /* Hover glow animation */
+  .hover-glow {
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .hover-glow:hover {
+    box-shadow: 0 0 40px -5px rgba(99, 102, 241, 0.5);
+  }
+  
+  /* Animated gradient border */
+  .animated-border {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .animated-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, #6366F1, #A855F7, #EC4899, #6366F1);
+    background-size: 300% 300%;
+    animation: gradient-rotate 4s linear infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  
+  @keyframes gradient-rotate {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  /* Shimmer effect for loading states */
+  .shimmer {
+    background: linear-gradient(90deg, 
+      rgba(99, 102, 241, 0.1) 25%, 
+      rgba(139, 92, 246, 0.2) 50%, 
+      rgba(99, 102, 241, 0.1) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+  
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  
+  /* Input focus styles */
+  .input-modern {
+    @apply bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 py-3;
+    @apply transition-all duration-300 ease-out;
+    @apply focus:outline-none focus:border-indigo-500/50 focus:ring-2 focus:ring-indigo-500/20;
+    @apply hover:border-slate-600;
+  }
+  
+  /* Button modern styles */
+  .btn-primary {
+    @apply bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600;
+    @apply text-white font-semibold px-6 py-3 rounded-xl;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:shadow-glow-md hover:scale-[1.02];
+    @apply active:scale-[0.98];
+  }
+  
+  .btn-secondary {
+    @apply bg-slate-800/80 border border-slate-700/50 text-white;
+    @apply font-medium px-6 py-3 rounded-xl;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:bg-slate-700/80 hover:border-indigo-500/30;
   }
 }
